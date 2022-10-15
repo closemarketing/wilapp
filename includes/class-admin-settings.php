@@ -87,7 +87,7 @@ class Wilapp_Admin_Settings {
 				<div id="nag-container"></div>
 				<div class="header wilapp-header">
 					<div class="logo">
-						<img src="<?php echo WILAPP_PLUGIN_URL . 'includes/assets/logo.svg'; ?>" height="35" width="154"/>
+						<img src="<?php echo WILAPP_PLUGIN_URL . 'includes/assets/logo.svg'; ?>" height="50" width="154"/>
 						<h2><?php esc_html_e( 'Wilapp Settings', 'wilapp' ); ?></h2>
 					</div>
 					<div class="connection">
@@ -97,10 +97,13 @@ class Wilapp_Admin_Settings {
 						if ( 'error' === $login_result['status'] ) {
 							echo '<svg width="24" height="24" viewBox="0 0 24 24" class="license-icon"><defs><circle id="license-unchecked-a" cx="8" cy="8" r="8"></circle></defs><g fill="none" fill-rule="evenodd" transform="translate(4 4)"><use fill="#dc3232" xlink:href="#license-unchecked-a"></use><g fill="#FFF" transform="translate(4 4)"><rect width="2" height="8" x="3" rx="1" transform="rotate(-45 4 4)"></rect><rect width="2" height="8" x="3" rx="1" transform="rotate(-135 4 4)"></rect></g></g></svg>';
 							esc_html_e( 'ERROR: We could not connect to Wilapp.', 'wilapp' );
-							echo esc_html( $login_result['data'] );
+							echo ' ' . esc_html( $login_result['data'] );
 						} else {
 							echo '<svg width="24" height="24" viewBox="0 0 24 24" class="icon-24 license-icon"><defs><circle id="license-checked-a" cx="8" cy="8" r="8"></circle></defs><g fill="none" fill-rule="evenodd" transform="translate(4 4)"><mask id="license-checked-b" fill="#fff"><use xlink:href="#license-checked-a"></use></mask><use fill="#52AA59" xlink:href="#license-checked-a"></use><path fill="#FFF" fill-rule="nonzero" d="M7.58684811,11.33783 C7.19116948,11.7358748 6.54914653,11.7358748 6.15365886,11.33783 L3.93312261,9.10401503 C3.53744398,8.70616235 3.53744398,8.06030011 3.93312261,7.66244744 C4.32861028,7.26440266 4.97063323,7.26440266 5.36631186,7.66244744 L6.68931454,8.99316954 C6.78918902,9.09344917 6.95131795,9.09344917 7.0513834,8.99316954 L10.6336881,5.38944268 C11.0291758,4.9913979 11.6711988,4.9913979 12.0668774,5.38944268 C12.2568872,5.5805887 12.3636364,5.83993255 12.3636364,6.11022647 C12.3636364,6.3805204 12.2568872,6.63986424 12.0668774,6.83101027 L7.58684811,11.33783 Z" mask="url(#license-checked-b)"></path></g></svg>';
+
 							esc_html_e( 'Connected to Wilapp', 'wilapp' );
+							$professional_name = isset( $login_result['data']['public_name'] ) ? $login_result['data']['public_name'] : '';
+							echo ': ' . $professional_name;
 						}
 						?>
 						</p>

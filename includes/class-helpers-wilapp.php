@@ -26,37 +26,38 @@ class Helpers_Wilapp {
 	 * @param string $query Query.
 	 * @return array
 	 */
-	public function api_post( $username, $password, $action, $query = array() ) {
+	public function api( $username, $password, $endpoint, $method = 'GET', $query = array() ) {
 		if ( ! $username && ! $password ) {
 			return array(
 				'status' => 'error',
 				'data'   => 'No credentials',
 			);
 		}
-		$args     = array(
-			'timeout' => 120,
+		$args = array(
+			'method'  => $method,
+			'timeout' => 30,
 			'body'    => array(
-				'action'   => $action,
-				'usuario'  => $username,
+				'email'    => $username,
 				'password' => $password,
 			)
 		);
 		if ( ! empty( $query ) ) {
 			$args['body'] = array_merge( $args['body'], $query );
 		}
-		$result      = wp_remote_post( 'https://app.firmafy.com/ApplicationProgrammingInterface.php', $args );
+		$url         = 'https://api.wilapp.com/v1/' . $endpoint;
+		$result      = wp_remote_request( $url, $args );
 		$result_body = wp_remote_retrieve_body( $result );
 		$body        = json_decode( $result_body, true );
 
-		if ( isset( $body['error'] ) && $body['error'] ) {
+		if ( isset( $body['status'] ) && 400 == $body['status'] ) {
 			return array(
 				'status' => 'error',
-				'data'   => isset( $body['error_message'] ) ? $body['error_message'] : '',
+				'data'   => isset( $body['message'] ) ? $body['message'] : '',
 			);
 		} else {
 			return array(
 				'status' => 'ok',
-				'data'   => isset( $body['data'] ) ? $body['data'] : '',
+				'data'   => isset( $body ) ? $body : '',
 			);
 		}
 	}
@@ -69,12 +70,12 @@ class Helpers_Wilapp {
 	 */
 	public function login( $username = '', $password = '' ) {
 		if ( empty( $username ) || empty( $password ) ) {
-			$settings = get_option( 'firmafy_options' );
+			$settings = get_option( 'wilapp_options' );
 			$username = isset( $settings['username'] ) ? $settings['username'] : '';
 			$password = isset( $settings['password'] ) ? $settings['password'] : '';
 		}
 
-		return $this->api_post( $username, $password, 'login' );
+		return $this->api( $username, $password, 'user/login', 'POST' );
 	}
 
 	/**

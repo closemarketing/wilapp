@@ -48,7 +48,7 @@ class Wilapp_Admin_Settings {
 	function admin_scripts() {
 		wp_enqueue_style(
 			'wilapp-admin',
-			WILAPP_PLUGIN_URL . '/includes/assets/wilapp-admin.css',
+			WILAPP_PLUGIN_URL . 'includes/assets/wilapp-admin.css',
 			array(),
 			WILAPP_VERSION
 		);
@@ -61,8 +61,8 @@ class Wilapp_Admin_Settings {
 	public function add_plugin_page() {
 		add_submenu_page(
 			'options-general.php',
-			__( 'Wilapp', 'ccoo-admin' ),
-			__( 'Wilapp', 'ccoo-admin' ),
+			__( 'Wilapp', 'wilapp' ),
+			__( 'Wilapp', 'wilapp' ),
 			'manage_options',
 			'wilapp-options',
 			array( $this, 'create_admin_page' )
@@ -162,32 +162,6 @@ class Wilapp_Admin_Settings {
 			'wilapp_options',
 			'admin_wilapp_settings'
 		);
-
-		add_settings_field(
-			'wilapp_id_show',
-			__( 'Public API Key', 'wilapp' ),
-			array( $this, 'id_show_callback' ),
-			'wilapp_options',
-			'admin_wilapp_settings'
-		);
-
-		add_settings_field(
-			'wilapp_notification',
-			__( 'Notification settings', 'wilapp' ),
-			array( $this, 'notification_callback' ),
-			'wilapp_options',
-			'admin_wilapp_settings'
-		);
-
-		if ( class_exists( 'WooCommerce' ) ) {
-			add_settings_field(
-				'wilapp_woocommerce',
-				__( 'Sign WooCommerce orders with Wilapp?', 'wilapp' ),
-				array( $this, 'woocommerce_callback' ),
-				'wilapp_options',
-				'admin_wilapp_settings'
-			);
-		}
 	}
 
 	/**
@@ -210,29 +184,6 @@ class Wilapp_Admin_Settings {
 
 		if ( isset( $input['password'] ) ) {
 			$sanitary_values['password'] = sanitize_text_field( $input['password'] );
-		}
-
-		if ( isset( $input['id_show'] ) ) {
-			$sanitary_values['id_show'] = sanitize_text_field( $input['id_show'] );
-		}
-
-		if ( isset( $input['woocommerce'] ) ) {
-			$sanitary_values['woocommerce'] = sanitize_text_field( $input['woocommerce'] );
-		}
-
-		if ( isset( $_POST['notification'] ) && is_array( $_POST['notification'] ) ) {
-			foreach ( $_POST['notification'] as $notification ) {
-				$sanitary_values['notification'][] = sanitize_text_field( $notification );
-			}
-		}
-
-		if ( empty( $sanitary_values['notification'] ) ) {
-			add_settings_error(
-				'wilapp_notification_error',
-				esc_attr( 'settings_updated' ),
-				__( 'Notifications option cannot be empty', 'wilapp' ),
-				'error'
-			);
 		}
 
 		$helpers_wilapp->login( $sanitary_values['username'], $sanitary_values['password'] );
@@ -261,154 +212,6 @@ class Wilapp_Admin_Settings {
 			'<input class="regular-text" type="password" name="wilapp_options[password]" id="password" value="%s">',
 			isset( $this->wilapp_settings['password'] ) ? esc_attr( $this->wilapp_settings['password'] ) : ''
 		);
-	}
-
-	public function id_show_callback() {
-		printf(
-			'<input class="regular-text" type="password" name="wilapp_options[id_show]" id="id_show" value="%s">',
-			isset( $this->wilapp_settings['id_show'] ) ? esc_attr( $this->wilapp_settings['id_show'] ) : ''
-		);
-	}
-
-	public function notification_callback() {
-		$notification = isset( $this->wilapp_settings['notification'] ) ? (array) $this->wilapp_settings['notification'] : [];
-		echo '<input type="checkbox" name="notification[]" value="sms" ';
-		echo checked( in_array( 'sms', $notification ), 1 ) . ' />';
-		echo '<label for="notification">SMS</label>';
-		echo '<br/><input type="checkbox" name="notification[]" value="email" ';
-		echo checked( in_array( 'email', $notification ), 1 ) . ' />';
-		echo '<label for="notification">Email</label>';
-	}
-
-	public function woocommerce_callback() {
-		?>
-		<select name="wilapp_options[woocommerce]" id="woocommerce">
-			<?php $selected = ( isset( $this->wilapp_settings['woocommerce'] ) && $this->wilapp_settings['woocommerce'] === 'yes' ) ? 'selected' : ''; ?>
-			<option value="no" <?php echo esc_html( $selected ); ?>><?php esc_html_e( 'No', 'wilapp' ); ?></option>
-			<option value="yes" <?php echo esc_html( $selected ); ?>><?php esc_html_e( 'Yes', 'wilapp' ); ?></option>
-			<?php $selected = ( isset( $this->wilapp_settings['woocommerce'] ) && $this->wilapp_settings['woocommerce'] === 'no' ) ? 'selected' : ''; ?>
-		</select><br/>
-		<label for="woocommerce"><?php esc_html_e( 'This adds a NIF field required for Wilapp and signs the order when the order is placed.', 'wilapp' ); ?></label>
-		<br/>
-		<label for="woocommerce">
-			<?php
-			echo sprintf(
-				__( 'You will need to setup the <a href="%s">Terms and conditions page</a>', 'wilapp' ),
-				admin_url('admin.php?page=wc-settings&tab=advanced')
-			);
-			?>
-		</label>
-		<?php
-	}
-
-	/**
-	 * Register Post Type Templates
-	 *
-	 * @return void
-	 **/
-	public function create_wilapp_templates_type() {
-		$labels = array(
-			'name'               => __( 'Templates', 'wilapp' ),
-			'singular_name'      => __( 'Template', 'wilapp' ),
-			'add_new'            => __( 'Add New Template', 'wilapp' ),
-			'add_new_item'       => __( 'Add New Template', 'wilapp' ),
-			'edit_item'          => __( 'Edit Template', 'wilapp' ),
-			'new_item'           => __( 'New Template', 'wilapp' ),
-			'view_item'          => __( 'View Template', 'wilapp' ),
-			'search_items'       => __( 'Search Templates', 'wilapp' ),
-			'not_found'          => __( 'Not found Template', 'wilapp' ),
-			'not_found_in_trash' => __( 'Not found Template in trash', 'wilapp' ),
-		);
-		$args   = array(
-			'labels'             => $labels,
-			'public'             => false,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => false,
-			'show_in_rest'       => true,
-			'query_var'          => true,
-			'has_archive'        => false,
-			'capability_type'    => 'post',
-			'hierarchical'       => false,
-			'menu_position'      => 5,
-			'supports'           => array( 'title', 'editor', 'revisions' ),
-		);
-		register_post_type( 'wilapp_template', $args );
-	}
-
-	/**
-	 * Adds columns to post type wilapp_template
-	 *
-	 * @param array $wilapp_template_columns  Header of admin post type list.
-	 * @return array $wilapp_template_columns New elements for header.
-	 */
-	function add_new_wilapp_template_columns( $wilapp_template_columns ) {
-		$new_columns['cb']    = '<input type="checkbox" />';
-		$new_columns['title'] = __( 'Title', 'wilapp' );
-		$new_columns['variables'] = __( 'Variables', 'wilapp' );
-	
-		return $new_columns;
-	}
-
-	/**
-	 * Add columns content
-	 *
-	 * @param array $column_name Column name of actual.
-	 * @param array $id Post ID.
-	 * @return void
-	 */
-	function manage_wilapp_template_columns( $column_name, $id ) {
-		global $helpers_wilapp;
-	
-		switch ( $column_name ) {
-			case 'variables':
-				$variables = $helpers_wilapp->get_variables_template( $id );
-				if ( is_array( $variables ) ) {
-					echo implode( ', ', array_column( $variables, 'label' ) );
-				}
-				
-				break;
-	
-			default:
-				break;
-		} // end switch
-	}
-
-	/**
-	 * Creates predefined templates
-	 *
-	 * @return void
-	 */
-	public function loads_templates_cpt() {
-		$initial_templates = array(
-			array(
-				'slug'  => 'sepa',
-				'title' => __( 'Sign SEPA', 'wilapp' ),
-			),
-			array(
-				'slug'  => 'rgpd',
-				'title' => __( 'RGPD New user', 'wilapp' ),
-			),
-		);
-
-		foreach ( $initial_templates as $template ) {
-			$file_template = WILAPP_PLUGIN_PATH . '/includes/templates/' . $template['slug'] . '.html';
-			$post_exists   = get_page_by_path( $template['slug'], OBJECT, 'wilapp_template' );
-
-			if ( file_exists( $file_template ) && ! $post_exists ) {
-				$template_post = array(
-					'post_title'    => wp_strip_all_tags( $template['title'] ),
-					'post_name'     => $template['slug'],
-					'post_content'  => file_get_contents( $file_template ),
-					'post_status'   => 'publish',
-					'post_type'     => 'wilapp_template',
-				);
-				  
-				// Insert the post into the database
-				wp_insert_post( $template_post );
-			}
-		}
-
 	}
 }
 

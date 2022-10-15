@@ -48,7 +48,7 @@ class Wilapp_Admin_Settings {
 	function admin_scripts() {
 		wp_enqueue_style(
 			'wilapp-admin',
-			WILAPP_PLUGIN_URL . '/includes/assets/admin.css',
+			WILAPP_PLUGIN_URL . '/includes/assets/wilapp-admin.css',
 			array(),
 			WILAPP_VERSION
 		);
@@ -59,46 +59,14 @@ class Wilapp_Admin_Settings {
 	 * @return void
 	 */
 	public function add_plugin_page() {
-
-		add_menu_page(
-			__( 'Wilapp', 'wilapp' ),
-			__( 'Wilapp', 'wilapp' ),
+		add_submenu_page(
+			'options-general.php',
+			__( 'Wilapp', 'ccoo-admin' ),
+			__( 'Wilapp', 'ccoo-admin' ),
 			'manage_options',
-			'settings_wilapp',
-			array( $this, 'create_admin_page' ),
-			'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0LjgxODcgMlY1LjUzNTQxSDcuOTY0NTlWOC4xMzE3M0gxNC4xOTgzVjExLjY2NzFINy45NjQ1OVYxN0g0VjJIMTQuODE4N1oiIGZpbGw9IiMwNjc0OTUiLz4KPC9zdmc+Cg=='
+			'wilapp-options',
+			array( $this, 'create_admin_page' )
 		);
-
-		$submenu_pages = array(
-			array(
-				'parent_slug' => 'settings_wilapp',
-				'page_title'  => __( 'Settings', 'wilapp' ),
-				'menu_title'  => __( 'Settings', 'wilapp' ),
-				'capability'  => 'manage_options',
-				'menu_slug'   => 'settings_wilapp',
-				'function'    => array( $this, 'create_admin_page' ),
-			),
-			array(
-				'parent_slug' => 'settings_wilapp',
-				'page_title'  => __( 'Templates', 'wilapp' ),
-				'menu_title'  => __( 'Templates', 'wilapp' ),
-				'capability'  => 'manage_options',
-				'menu_slug'   => 'edit.php?post_type=wilapp_template',
-				'function'    => null,
-			),
-		);
-
-		// Add each submenu item to custom admin menu.
-		foreach ( $submenu_pages as $submenu ) {
-			add_submenu_page(
-				$submenu['parent_slug'],
-				$submenu['page_title'],
-				$submenu['menu_title'],
-				$submenu['capability'],
-				$submenu['menu_slug'],
-				$submenu['function']
-			);
-		}
 	}
 	function admin_notices_action() {
 		settings_errors( 'wilapp_notification_error' );

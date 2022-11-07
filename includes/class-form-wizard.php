@@ -164,7 +164,64 @@ class WilApp_Wizard {
 		$html .= '<fieldset class="wizard-fieldset" data-page="5">';
 		$html .= '<h3>' . __( 'Select worker', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-worker"></ul></div>';
-		$html .= '<div id="response-error-page-4" class="response-error"></div>';
+		$html .= '<div id="response-error-page-5" class="response-error"></div>';
+		$html .= '</fieldset>';
+
+		/**
+		 * ## STEP 6 - Appointment
+		 * --------------------------- */
+		$html .= '<fieldset class="wizard-fieldset" data-page="6">';
+		$html .= '<h3>' . __( 'New Appointmet', 'wilapp' ) . '</h3>';
+		// First and Last name.
+		$html .= '<div class="form-group focus-input">';
+		$html .= '<label for="name" class="wizard-form-text-label">' . __( 'Name and lastname', 'wilapp' ) . '*</label>';
+		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="name"';
+		if ( WILAPP_DEBUG ) { $html .= ' value="Name and surname"'; }
+		$html .= '>';
+		$html .= '<div class="wizard-form-error"></div>';
+		$html .= '</div>';
+
+		// Phone.
+		$html .= '<div class="form-group focus-input">';
+		$html .= '<label for="name" class="wizard-form-text-label">' . __( 'Phone', 'wilapp' ) . '*</label>';
+		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="phone"';
+		if ( WILAPP_DEBUG ) { $html .= ' value="669904426"'; }
+		$html .= '>';
+		$html .= '<div class="wizard-form-error"></div>';
+		$html .= '</div>';
+
+		// Email.
+		$html .= '<div class="form-group focus-input">';
+		$html .= '<label for="email" class="wizard-form-text-label">' . __( 'Email', 'wilapp' ) . '*</label>';
+		$html .= '<input autocomplete="off" type="email" class="form-control wizard-required" id="email"';
+		if ( WILAPP_DEBUG ) { $html .= ' value="test@pruebasclose.com"'; }
+		$html .= '>';
+		$html .= '<div class="wizard-form-error"></div>';
+		$html .= '</div>';
+
+		// Notes.
+		$html .= '<div class="form-group focus-input">';
+		$html .= '<label for="email" class="wizard-form-text-label">' . __( 'Write a note, e.g. any specific requirements.', 'wilapp' ) . '</label>';
+		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="notes">';
+		$html .= '<div class="wizard-form-error"></div>';
+		$html .= '</div>';
+
+		// GDPR.
+		$html .= '<div class="form-group focus-input form-conditions">';
+		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="gdpr"';
+		if ( WILAPP_DEBUG ) { $html .= ' value="1"'; }
+		$html .= '>';
+		$html .= 'I’ve read and agree with <a target="_blank" href="#">Terms and Conditions</a> and <a target="_blank" href="#">Privacy Policy</a>. </label>';
+		$html .= '<div class="wizard-form-error"></div>';
+		$html .= '</div>';
+
+		// Submit.
+		$html .= '<div class="form-group clearfix">';
+		$html .= '<a href="javascript:;" class="js-validate-submit form-wizard-submit">' . esc_html__( 'Confirm', 'ccoo-registre-app' ) . '</a>';
+		$html .= '<div id="response-error-submit" class="response-error"></div>';
+		$html .= '</div>';
+	
+		$html .= '<div id="response-error-page-6" class="response-error"></div>';
 		$html .= '</fieldset>';
 
 		/**
@@ -203,11 +260,15 @@ class WilApp_Wizard {
 		if ( ! empty( $_POST['hour'] ) && 'null' !== $_POST['hour'] ) { 
 			$_SESSION['wilapp']['hour'] = sanitize_text_field( $_POST['hour'] );
 		}
+		if ( ! empty( $_POST['worker'] ) && 'null' !== $_POST['worker'] ) { 
+			$_SESSION['wilapp']['worker'] = sanitize_text_field( $_POST['worker'] );
+		}
 
 		$cat_id     = isset( $_SESSION['wilapp']['cat_id'] ) ? $_SESSION['wilapp']['cat_id'] : '';
 		$service_id = isset( $_SESSION['wilapp']['service_id'] ) ? $_SESSION['wilapp']['service_id'] : '';
 		$day        = isset( $_SESSION['wilapp']['day'] ) ? $_SESSION['wilapp']['day'] : '';
 		$hour       = isset( $_SESSION['wilapp']['hour'] ) ? $_SESSION['wilapp']['hour'] : '';
+		$worker     = isset( $_SESSION['wilapp']['worker'] ) ? $_SESSION['wilapp']['worker'] : '';
 
 		wp_verify_nonce( $_POST['validate_step_nonce'], 'validate_step' );
 		if ( true ) {
@@ -286,26 +347,6 @@ class WilApp_Wizard {
 		} else {
 			wp_send_json_error( esc_html__( 'Error connecting API', 'wilapp' ) );
 		}
-		/*
-		            [5] => Array
-                (
-                    [id] => b7c5308f-c2ef-4e55-9734-42c49333570b
-                    [category_id] => NxiI6Yb9OxopO2EPTvMO
-                    [image] => 
-                    [name] => Corte Masculino 
-                    [description] => Corte Masculino normal
-                    [price] => 10
-                    [offer_price] => 8
-                    [offer_days] => 0,0,1,0,0,0,0
-                    [show_price] => 1
-                    [duration] => 30
-                    [service_days] => 
-                    [position] => 0
-                    [prepayment_enabled] => 0
-                    [prepayment_perc_general] => 1
-                    [prepayment_perc] => 20
-                )*/
-
 	}
 	/**
 	 * Validates Final submission

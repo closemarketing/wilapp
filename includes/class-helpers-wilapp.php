@@ -26,21 +26,23 @@ class Helpers_Wilapp {
 	 * @param string $query Query.
 	 * @return array
 	 */
-	public function api( $username, $password, $endpoint, $method = 'GET', $query = array() ) {
-		if ( ! $username && ! $password ) {
-			return array(
-				'status' => 'error',
-				'data'   => 'No credentials',
-			);
-		}
+	public function api( $credentials, $endpoint, $method = 'GET', $query = array() ) {
 		$args = array(
 			'method'  => $method,
 			'timeout' => 30,
-			'body'    => array(
-				'email'    => $username,
-				'password' => $password,
-			)
+			'body'    => array()
 		);
+		if ( ! empty( $credentials['auth_key'] ) ) {
+			$args['headers'] = array(
+				'Authorization' => 'Bearer ' . $credentials['auth_key'],
+			); 
+		} elseif ( ! empty( $credentials['username'] ) && ! empty( $credentials['password'] ) ) {
+			$args['body'] = array(
+				'email'    => $credentials['username'],
+				'password' => $credentials['password'],
+			);
+		}
+
 		if ( ! empty( $query ) ) {
 			$args['body'] = array_merge( $args['body'], $query );
 		}
@@ -75,7 +77,128 @@ class Helpers_Wilapp {
 			$password = isset( $settings['password'] ) ? $settings['password'] : '';
 		}
 
-		return $this->api( $username, $password, 'user/login', 'POST' );
+		return $this->api(
+			array(
+				'username' => $username,
+				'password' => $password,
+			),
+			'user/login',
+			'POST'
+		);
+	}
+
+	/**
+	 * Get available schedules from professional and service
+	 *
+	 * @param array $professional Professional data.
+	 * @param array $service      Sevice data.
+	 * @return array
+	 */
+	public function get_schedules( $professional, $service ) {
+		$result_schedule = $this->api(
+			array(),
+			'schedule/?filter[professional_id]=' . $professional['id'],
+			'GET'
+		);
+
+		if ( 'ok' === $result_schedule['status'] ) {
+			return array(
+				'day'      => ! empty( $service['offer_days'] ) ? $service['offer_days'] : '1,1,1,1,1,1,0',
+				'init'     => isset( $result_schedule['data'][0]['init'] ) ? $result_schedule['data'][0]['init'] : '09:00:00',
+				'end'      => isset( $result_schedule['data'][0]['end'] ) ? $result_schedule['data'][0]['end'] : '20:00:00',
+				'duration' => ! empty( $service['duration'] ) ? $service['duration'] : 30,
+			);
+		}
+
+		return false;
+	}
+	/**
+	 * Get available schedules from professional and service
+	 *
+	 * @param array $professional Professional data.
+	 * @param array $service      Sevice data.
+	 * @return array
+	 */
+	public function get_workers( $professional, $query ) {
+		
+		$result_workers = $this->api(
+			array(
+				'auth_key' => $professional['auth_key'],
+			),
+			'professional/workers',
+			'POST',
+			$query
+		);
+
+		if ( 'ok' === $result_workers['status'] ) {
+			return $result_workers['data'];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Filters services by category_id
+	 *
+	 * @param array $services
+	 * @param string $category_id
+	 * @return array
+	 */
+	public function filter_services( $services, $category_id ) {
+		$filtered_services = array();
+		foreach ( $services as $service ) {
+			if ( isset( $service['category_id'] ) && $service['category_id'] === $category_id ) {
+				$filtered_services[] = $service;
+			}
+		}
+			
+		return $filtered_services;
+	}
+
+	/**
+	 * Filters services by category_id
+	 *
+	 * @param array $services
+	 * @param string $category_id
+	 * @return array
+	 */
+	public function filter_service( $services, $service_id ) {
+		$filtered_service = array();
+		foreach ( $services as $service ) {
+			if ( isset( $service['id'] ) && $service['id'] === $service_id ) {
+				$filtered_service = $service;
+			}
+		}
+			
+		return $filtered_service;
+	}
+
+	public function convert_week( $week_day ) {
+		$european_day = array(
+			0 => 6,
+			1 => 0,
+			2 => 1,
+			3 => 2,
+			4 => 3,
+			5 => 4,
+			6 => 5,
+		);
+
+		return isset( $european_day[ $week_day ] ) ? $european_day[ $week_day ] : 0;
+	}
+
+	public function get_week_name( $euro_week_day ) {
+		$week_names = array(
+			0 => __( 'Monday', 'wilapp' ),
+			1 => __( 'Tuesday', 'wilapp' ),
+			2 => __( 'Wednesday', 'wilapp' ),
+			3 => __( 'Thursday', 'wilapp' ),
+			4 => __( 'Friday', 'wilapp' ),
+			5 => __( 'Saturday', 'wilapp' ),
+			6 => __( 'Sunday', 'wilapp' ),
+		);
+
+		return isset( $week_names[ $euro_week_day ] ) ? $week_names[ $euro_week_day ] : '';
 	}
 
 	/**

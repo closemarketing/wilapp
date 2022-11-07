@@ -1,19 +1,37 @@
-.ccoo-registre {
+.wilapp-wizard {
 	margin: 100px auto 20px;
 	padding: 20px;
 	border: 1px solid black;
 	max-width: 800px;
+	box-shadow: 0 6px 12px rgb(0 0 0 / 20%);
 }
 
-body.woocommerce-cart .ccoo-registre {
+body.woocommerce-cart .wilapp-wizard {
 	margin-top: 0px;
 }
 
-.ccoo-registre.code-view {
+.wilapp-wizard.code-view {
 	max-width: 400px;
 }
+
 .form-wizard .full-width {
 	width: 100%;
+}
+
+.wilapp-wizard .options {
+	width: 100%;
+}
+
+.wilapp-wizard .wizard-fieldset {
+	border: none;
+}
+
+.wilapp-wizard .options .wilapp-item {
+	list-style: none;
+	margin: 0 -24px;
+	padding: 12px 24px;
+	border-bottom: 1px solid #e9ecef;
+	cursor: pointer;
 }
 
 .form-wizard .row {

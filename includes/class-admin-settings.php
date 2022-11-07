@@ -165,6 +165,14 @@ class Wilapp_Admin_Settings {
 			'wilapp_options',
 			'admin_wilapp_settings'
 		);
+
+		add_settings_field(
+			'wilapp_worker_select',
+			__( 'Who cames first in the appoinment Professional or disponibility?', 'wilapp' ),
+			array( $this, 'wilapp_worker_select' ),
+			'wilapp_options',
+			'admin_wilapp_settings'
+		);
 	}
 
 	/**

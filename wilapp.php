@@ -27,8 +27,12 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 define( 'WILAPP_VERSION', '1.0.0' );
 define( 'WILAPP_PLUGIN', __FILE__ );
+define( 'WILAPP_DEBUG', true );
 define( 'WILAPP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WILAPP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+
+
+define( 'WILAPP_MAXDAYS', 15 );
 
 add_action( 'plugins_loaded', 'wilapp_plugin_init' );
 /**
@@ -45,3 +49,4 @@ function wilapp_plugin_init() {
  * ---------------------------------------------------------------------------------------------------- */
 require_once WILAPP_PLUGIN_PATH . 'includes/class-helpers-wilapp.php';
 require_once WILAPP_PLUGIN_PATH . 'includes/class-admin-settings.php';
+require_once WILAPP_PLUGIN_PATH . 'includes/class-form-wizard.php';

@@ -20,9 +20,9 @@ var loadFunction = function( e ) {
 		body: 'action=wizard_step&validate_step_nonce=' + AjaxVarStep.nonce + '&cat_id=' + cat_id + '&service_id=' + service_id + '&day=' + day + '&hour=' + hour + '&worker=' + worker + '&page=' + page,
 	})
 	.then((resp) => resp.json())
-	.then( function(data) {
-		if ( data.success && page < 6 ) {
-			goToNextPage( e.target, data.data );
+	.then( function(result) {
+		if ( result.success && page < 6 ) {
+			goToNextPage( e.target, result.data );
 		} else if ( page == 6 ) {
 			goToSubmitPage( e.target, worker );
 		}

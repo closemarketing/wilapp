@@ -120,6 +120,7 @@ class WilApp_Wizard {
 		$html .= '<div class="row"><ul class="options categories">';
 		foreach ( $categories as $category ) {
 			$html .= '<li class="wilapp-item" data-cat-id="' . esc_attr( $category['id'] ) . '">';
+			// decoding="auto" loading="eager" 
 			$html .= '<img src="' . esc_url( $category['image'] ) . '" width="80" height="60" />';
 			$html .= esc_html( $category['name'] );
 			$html .= '</li>';
@@ -132,7 +133,7 @@ class WilApp_Wizard {
 		 * ## STEP 2 - Services
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="2">';
-		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
+		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select a service', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options services">';
 		$html .= '</ul></div>';
@@ -143,7 +144,7 @@ class WilApp_Wizard {
 		 * ## STEP 3 - Appointment Day
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="3">';
-		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
+		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select a day', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-day"></ul></div>';
 		$html .= '<div id="response-error-page-3" class="response-error"></div>';
@@ -153,7 +154,7 @@ class WilApp_Wizard {
 		 * ## STEP 4 - Appointment Hour
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="4">';
-		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
+		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select a hour', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-hour"></ul></div>';
 		$html .= '<div id="response-error-page-4" class="response-error"></div>';
@@ -163,7 +164,7 @@ class WilApp_Wizard {
 		 * ## STEP 5 - Worker
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="5">';
-		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
+		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select worker', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-worker"></ul></div>';
 		$html .= '<div id="response-error-page-5" class="response-error"></div>';
@@ -173,7 +174,7 @@ class WilApp_Wizard {
 		 * ## STEP 6 - Appointment
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="6" data-worker="">';
-		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
+		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'New Appointmet', 'wilapp' ) . '</h3>';
 
 		// First and Last name.

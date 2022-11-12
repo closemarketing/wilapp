@@ -93,11 +93,9 @@ class WilApp_Wizard {
 
 		$html  = '<section class="wilapp-wizard" data-type="' . $mode . '" data-recupera="' . $is_recupera . '">';
 		$html .= '<h2>' . __( 'Make an appointment', 'wilapp' ) . '</h2>';
-		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<div class="form-wizard"><form action="" method="post" role="form" autocomplete="off">';
 
 		$login_result = $helpers_wilapp->login();
-
 		if ( 'error' === $login_result['status'] ) {
 			echo 'error';
 			return;
@@ -134,6 +132,7 @@ class WilApp_Wizard {
 		 * ## STEP 2 - Services
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="2">';
+		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select a service', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options services">';
 		$html .= '</ul></div>';
@@ -144,6 +143,7 @@ class WilApp_Wizard {
 		 * ## STEP 3 - Appointment Day
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="3">';
+		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select a day', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-day"></ul></div>';
 		$html .= '<div id="response-error-page-3" class="response-error"></div>';
@@ -153,6 +153,7 @@ class WilApp_Wizard {
 		 * ## STEP 4 - Appointment Hour
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="4">';
+		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select a hour', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-hour"></ul></div>';
 		$html .= '<div id="response-error-page-4" class="response-error"></div>';
@@ -162,6 +163,7 @@ class WilApp_Wizard {
 		 * ## STEP 5 - Worker
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="5">';
+		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'Select worker', 'wilapp' ) . '</h3>';
 		$html .= '<div class="row"><ul class="options appointment-worker"></ul></div>';
 		$html .= '<div id="response-error-page-5" class="response-error"></div>';
@@ -170,12 +172,14 @@ class WilApp_Wizard {
 		/**
 		 * ## STEP 6 - Appointment
 		 * --------------------------- */
-		$html .= '<fieldset class="wizard-fieldset" data-page="6">';
+		$html .= '<fieldset class="wizard-fieldset" data-page="6" data-worker="">';
+		$html .= '<button id="wilapp-step-back">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'New Appointmet', 'wilapp' ) . '</h3>';
+
 		// First and Last name.
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="name" class="wizard-form-text-label">' . __( 'Name and lastname', 'wilapp' ) . '*</label>';
-		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="name"';
+		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="wilapp-name"';
 		if ( WILAPP_DEBUG ) { $html .= ' value="Name and surname"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
@@ -184,7 +188,7 @@ class WilApp_Wizard {
 		// Phone.
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="name" class="wizard-form-text-label">' . __( 'Phone', 'wilapp' ) . '*</label>';
-		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="phone"';
+		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="wilapp-phone"';
 		if ( WILAPP_DEBUG ) { $html .= ' value="669904426"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
@@ -193,7 +197,7 @@ class WilApp_Wizard {
 		// Email.
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="email" class="wizard-form-text-label">' . __( 'Email', 'wilapp' ) . '*</label>';
-		$html .= '<input autocomplete="off" type="email" class="form-control wizard-required" id="email"';
+		$html .= '<input autocomplete="off" type="email" class="form-control wizard-required" id="wilapp-email"';
 		if ( WILAPP_DEBUG ) { $html .= ' value="test@pruebasclose.com"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
@@ -202,13 +206,15 @@ class WilApp_Wizard {
 		// Notes.
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="email" class="wizard-form-text-label">' . __( 'Write a note, e.g. any specific requirements.', 'wilapp' ) . '</label>';
-		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="notes">';
+		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="wilapp-notes"';
+		if ( WILAPP_DEBUG ) { $html .= ' value="Notes"'; }
+		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
 		$html .= '</div>';
 
 		// GDPR.
 		$html .= '<div class="form-group focus-input form-conditions">';
-		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="gdpr"';
+		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="wilapp-gdpr"';
 		if ( WILAPP_DEBUG ) { $html .= ' value="1"'; }
 		$html .= '>';
 		$html .= 'I’ve read and agree with <a target="_blank" href="#">Terms and Conditions</a> and <a target="_blank" href="#">Privacy Policy</a>. </label>';
@@ -217,11 +223,18 @@ class WilApp_Wizard {
 
 		// Submit.
 		$html .= '<div class="form-group clearfix">';
-		$html .= '<a href="javascript:;" class="js-validate-submit form-wizard-submit">' . esc_html__( 'Confirm', 'ccoo-registre-app' ) . '</a>';
+		$html .= '<a href="#" id="wilapp-submit" class="button form-wizard-submit">' . esc_html__( 'Confirm', 'ccoo-registre-app' ) . '</a>';
 		$html .= '<div id="response-error-submit" class="response-error"></div>';
 		$html .= '</div>';
 	
 		$html .= '<div id="response-error-page-6" class="response-error"></div>';
+		$html .= '</fieldset>';
+
+		/**
+		 * ## STEP 7 - Finish
+		 * --------------------------- */
+		$html .= '<fieldset class="wizard-fieldset" data-page="7">';
+		$html .= '<div id="wilapp-result-appointment"></div>';
 		$html .= '</fieldset>';
 
 		/**
@@ -355,11 +368,48 @@ class WilApp_Wizard {
 	 */
 	public function validate_submit() {
 		global $helpers_wilapp;
+		session_start();
+		if ( ! isset( $_SESSION['wilapp'] ) ) {
+			return false;
+		}
 
-		wp_verify_nonce( $_POST['validate_step_nonce'], 'validate_step' );
+		$worker_id = isset( $_POST['worker_id'] ) ? sanitize_text_field( $_POST['worker_id'] ) : '';
+		$name      = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
+		$phone     = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+		$email     = isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : '';
+		$notes     = isset( $_POST['notes'] ) ? sanitize_text_field( $_POST['notes'] ) : '';
 
+		wp_verify_nonce( $_POST['validate_submit_nonce'], 'validate_submit' );
 		if ( true ) {
+			$professional = get_transient( 'wilapp_query_professional' );
+			$services     = $professional['services'];
+			$service      = $helpers_wilapp->filter_service( $services, $_SESSION['wilapp']['service_id'] );
 
+			// Process dates: Y-m-d H:i:s
+			$start_date = $_SESSION['wilapp']['day'] . ' ' . $_SESSION['wilapp']['hour'];
+			$end_date  = date( 'Y-m-d H:i', strtotime( $start_date ) + $service['duration'] * 60 );
+
+			$result_appointment = $helpers_wilapp->post_appointment(
+				$professional,
+				array(
+					'professional_id' => $professional['id'],
+					'service_id'      => $_SESSION['wilapp']['service_id'],
+					'worker_id'       => $worker_id,
+					'start_date'      => $start_date,
+					'end_date'        => $end_date,
+					'client_name'     => $name,
+					'client_email'    => $email,
+					'client_phone'    => $phone,
+					'client_notes'    => $notes,
+					'isProfessional'  => false,
+				)
+			);
+
+			if ( 'ok' === $result_appointment['status'] ) {
+				wp_send_json_success( esc_html__( 'Appointment created correctly', 'wilapp' ) );
+			} else {
+				wp_send_json_error( esc_html__( 'Error creating the appointment', 'wilapp' ) );
+			}
 		}
 	}
 

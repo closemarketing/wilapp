@@ -1,4 +1,4 @@
-// in JS
+// Click Events.
 clickEvents = document.getElementsByClassName('wilapp-item');
 
 var loadFunction = function( e ) {
@@ -7,7 +7,7 @@ var loadFunction = function( e ) {
 	let service_id = this.getAttribute('data-service-id');
 	let day        = this.getAttribute('data-appointment-weekday');
 	let hour       = this.getAttribute('data-appointment-hour');
-	let worker     = this.getAttribute('data-appointment-worker');
+	let worker     = this.getAttribute('data-worker-id');
 	let page       = parseInt( this.closest('.wizard-fieldset').getAttribute('data-page') ) + 1;
 
 	fetch( AjaxVarStep.url, {
@@ -21,12 +21,10 @@ var loadFunction = function( e ) {
 	})
 	.then((resp) => resp.json())
 	.then( function(data) {
-		console.log(page);
-		console.log(data);
 		if ( data.success && page < 6 ) {
-			goToNextPage( e.target, data.data, true );
+			goToNextPage( e.target, data.data );
 		} else if ( page == 6 ) {
-			goToNextPage( e.target, '', false );
+			goToSubmitPage( e.target, worker );
 		}
 	})
 	.catch(err => console.log(err));
@@ -36,27 +34,66 @@ for (var i = 0; i < clickEvents.length; i++) {
 	clickEvents[i].addEventListener('click', loadFunction, false);
 }
 
-function goToNextPage( next, options, page_options ) {
-	currentFieldSet = next.closest('.wizard-fieldset');
+function toggleFieldSet( current ) {
+	currentFieldSet = current.closest('.wizard-fieldset');
 	currentFieldSet.classList.remove('show');
 
 	nextFieldSet = currentFieldSet.nextSibling;
-	if ( page_options ) {
-		optionsParent = nextFieldSet.querySelector('.options');
-	
-		options.forEach(element => {
-			var li = document.createElement('li');
-			let name = document.createTextNode(element.name);
-			li.append(name);
-			li.className = 'wilapp-item';
-			li.setAttribute( 'data-' + element.type, element.id );
-			optionsParent.appendChild(li);
-		});
-		
-		for (var i = 0; i < clickEvents.length; i++) {
-			clickEvents[i].addEventListener('click', loadFunction, false);
-		}
-	}
-
 	nextFieldSet.classList.add('show');
 }
+
+function goToNextPage( current, options ) {
+	toggleFieldSet( current );
+	optionsParent = nextFieldSet.querySelector('.options');
+
+	options.forEach(element => {
+		var li = document.createElement('li');
+		let name = document.createTextNode(element.name);
+		li.append(name);
+		li.className = 'wilapp-item';
+		li.setAttribute( 'data-' + element.type, element.id );
+		optionsParent.appendChild(li);
+	});
+	
+	for (var i = 0; i < clickEvents.length; i++) {
+		clickEvents[i].addEventListener('click', loadFunction, false);
+	}
+}
+
+function goToSubmitPage( current, worker ) {
+	toggleFieldSet( current );
+	nextFieldSet.setAttribute( 'data-worker', worker );
+}
+
+document.getElementById('wilapp-submit').addEventListener( 'click', ( e ) => {
+	let name   = document.getElementById('wilapp-name').value;
+	let phone  = document.getElementById('wilapp-phone').value;
+	let email  = document.getElementById('wilapp-email').value;
+	let notes  = document.getElementById('wilapp-notes').value;
+	let worker = e.target.closest('.wizard-fieldset').getAttribute('data-worker');
+
+	fetch( AjaxVarSubmit.url, {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Cache-Control': 'no-cache',
+		},
+		body: 'action=validate_submit&validate_submit_nonce=' + AjaxVarSubmit.nonce + '&name=' + name + '&phone=' + phone + '&email=' + email + '&notes=' + notes + '&worker_id=' + worker,
+	})
+	.then((resp) => resp.json())
+	.then( function(result) {
+		toggleFieldSet( e.target );
+		document.getElementById('wilapp-result-appointment').innerHTML = result.data;
+	})
+	.catch(err => console.log(err));
+});
+
+document.getElementById('wilapp-step-back').addEventListener( 'click', ( e ) => {
+	let current = e.target;
+	let currentFieldSet = current.closest('.wizard-fieldset');
+	currentFieldSet.classList.remove('show');
+
+	nextFieldSet = currentFieldSet.previousSibling;
+	nextFieldSet.classList.add('show');
+});

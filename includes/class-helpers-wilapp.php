@@ -112,6 +112,25 @@ class Helpers_Wilapp {
 
 		return false;
 	}
+
+	/**
+	 * Send appointment to Wilapp
+	 *
+	 * @param array $professional
+	 * @param array $query
+	 * @return array
+	 */
+	public function post_appointment( $professional, $query ) {
+		return $this->api(
+			array(
+				'auth_key' => $professional['auth_key'],
+			),
+			'appointment/create',
+			'POST',
+			$query
+		);
+	}
+
 	/**
 	 * Get available schedules from professional and service
 	 *

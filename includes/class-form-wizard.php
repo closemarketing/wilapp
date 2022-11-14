@@ -224,7 +224,7 @@ class WilApp_Wizard {
 
 		// Submit.
 		$html .= '<div class="form-group clearfix">';
-		$html .= '<a href="#" id="wilapp-submit" class="button form-wizard-submit"><span class="icon-calendar"></span>' . esc_html__( 'Confirm', 'ccoo-registre-app' ) . '</a>';
+		$html .= '<a href="#" id="wilapp-submit" class="button form-wizard-submit"><span class="icon-calendar"></span>' . esc_html__( 'Confirm', 'wilapp' ) . '</a>';
 		$html .= '<div id="response-error-submit" class="response-error"></div>';
 		$html .= '</div>';
 	

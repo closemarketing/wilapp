@@ -1,15 +1,16 @@
 @font-face {
 	font-family: 'icons';
-	src: url('fonts/icons.eot?58089904');
-	src: url('fonts/icons.eot?58089904#iefix') format('embedded-opentype'),
-		  url('fonts/icons.woff2?58089904') format('woff2'),
-		  url('fonts/icons.woff?58089904') format('woff'),
-		  url('fonts/icons.ttf?58089904') format('truetype'),
-		  url('fonts/icons.svg?58089904#icons') format('svg');
+	src: url('fonts/icons.eot?39970768');
+	src: url('fonts/icons.eot?39970768#iefix') format('embedded-opentype'),
+		  url('fonts/icons.woff2?39970768') format('woff2'),
+		  url('fonts/icons.woff?39970768') format('woff'),
+		  url('fonts/icons.ttf?39970768') format('truetype'),
+		  url('fonts/icons.svg?39970768#icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
  }
- [class^="icon-"]:before, [class*=" icon-"]:before {
+
+[class^="icon-"]:before, [class*=" icon-"]:before,.wilapp-item:after {
 	font-family: "icons";
 	font-style: normal;
 	font-weight: normal;
@@ -44,29 +45,37 @@
 	/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
  }
  
- .icon-left-open:before { content: '\e800'; } /* '' */
- .icon-calendar:before { content: '\e801'; } /* '' */
-
+.icon-left-open:before { content: '\e800'; } /* '' */
+.icon-calendar:before { content: '\e801'; } /* '' */
+.icon-right-open:before { content: '\e802'; } /* '' */
  
 .wilapp-wizard {
 	margin: 100px auto 20px;
-	padding: 20px;
+	padding: 20px 0;
 	border: 1px solid black;
-	max-width: 800px;
+	max-width: 540px;
 	box-shadow: 0 6px 12px rgb(0 0 0 / 20%);
 }
 
 .wilapp-wizard h2, 
 .wilapp-wizard h3 {
 	margin: 0;
+	text-align: center;
 }
 
 .wilapp-wizard h2 {
+	font-weight: 800px;
+	font-size: 21px;
+}
 
+.wilapp-wizard h3 {
+
+	font-size: 19px;
 }
 
 .wilapp-wizard .options {
 	padding: 0;
+	border-top: 1px solid #dee2e6;
 }
 
 body.woocommerce-cart .wilapp-wizard {
@@ -81,6 +90,12 @@ body.woocommerce-cart .wilapp-wizard {
 	width: 100%;
 }
 
+.wilapp-wizard .row {
+	min-height: 400px;
+	max-height: 400px;
+	overflow: auto;
+}
+
 .wilapp-wizard .options {
 	width: 100%;
 }
@@ -91,10 +106,22 @@ body.woocommerce-cart .wilapp-wizard {
 
 .wilapp-wizard .options .wilapp-item {
 	list-style: none;
-	margin: 0 -24px;
-	padding: 12px 24px;
+	margin: 0;
+	padding: 12px;
 	border-bottom: 1px solid #e9ecef;
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+	min-height: 85px;
+}
+
+.wilapp-item:after {
+	content: '\e802';
+	margin-left: auto;
+}
+
+.wilapp-wizard .options .wilapp-item img {
+	margin-right: 15px;
 }
 
 .form-wizard .row {
@@ -103,7 +130,7 @@ body.woocommerce-cart .wilapp-wizard {
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	align-items: flex-end;
+	align-items: flex-start;
 }
 
 .form-wizard .form-half {
@@ -184,7 +211,7 @@ body.woocommerce-cart .wilapp-wizard {
 }
 
 .form-wizard .wizard-form-radio input[type="radio"]:checked {
-	background-color: #e20b19;
+	background-color: black;
 }
 
 .form-wizard .wizard-form-radio input[type="radio"]:checked::before {
@@ -232,15 +259,15 @@ body.woocommerce-cart .wilapp-wizard {
 	clear: both;
 }
 
-.form-wizard .form-wizard-next-btn,
-.form-wizard .form-wizard-previous-btn,
+.form-wizard #wilapp-step-back,
 .form-wizard .form-wizard-submit {
-	background-color: #E20919;
+	background-color: black;
 	color: #ffffff;
 	display: inline-block;
 	min-width: 120px;
 	padding: 10px;
 	text-align: center;
+	text-decoration: none;
 }
 
 .form-wizard-btn {
@@ -323,7 +350,7 @@ body.woocommerce-cart .wilapp-wizard {
 }
 
 .form-wizard .focus-input .wizard-form-text-label {
-	color: #E20919;
+	color: black;
 	top: -25px;
 	transition: 0.2s linear all;
 	font-size: 14px;

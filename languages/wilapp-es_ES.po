@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wilapp\n"
-"POT-Creation-Date: 2022-11-14 12:20+0100\n"
-"PO-Revision-Date: 2022-11-14 12:23+0100\n"
+"POT-Creation-Date: 2022-11-14 13:19+0100\n"
+"PO-Revision-Date: 2022-11-14 13:19+0100\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: David <david@closemarketing.es>\n"
 "Language: es\n"
@@ -15,7 +15,9 @@ msgstr ""
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wilapp.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
@@ -49,10 +51,14 @@ msgid "Password"
 msgstr "Contraseña"
 
 #: includes/class-admin-settings.php:171
-msgid "Who cames first in the appoinment Professional or disponibility?"
-msgstr ""
+msgid "Terms and conditions page"
+msgstr "Página de términos y condiciones"
 
-#: includes/class-admin-settings.php:211
+#: includes/class-admin-settings.php:179
+msgid "Privacy policy page"
+msgstr "Página de política de privacidad"
+
+#: includes/class-admin-settings.php:227
 msgid "Put the connection API key settings in order to connect external data."
 msgstr "Pon los ajustes de la clave API para conectar con los datos externos."
 
@@ -106,19 +112,19 @@ msgstr "Correo electrónico"
 msgid "Write a note, e.g. any specific requirements."
 msgstr "Escribe una nota, por ejemplo, cualquier requisito específico."
 
-#: includes/class-form-wizard.php:227
+#: includes/class-form-wizard.php:232
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: includes/class-form-wizard.php:362
+#: includes/class-form-wizard.php:367
 msgid "Error connecting API"
 msgstr "Error al conectar la API"
 
-#: includes/class-form-wizard.php:410
+#: includes/class-form-wizard.php:415
 msgid "Appointment created correctly"
 msgstr "Cita creada correctamente"
 
-#: includes/class-form-wizard.php:412
+#: includes/class-form-wizard.php:417
 msgid "Error creating the appointment"
 msgstr "Error al crear la cita"
 
@@ -155,8 +161,8 @@ msgid "https://wilapp.com"
 msgstr "https://wilapp.com"
 
 #. Description of the plugin/theme
-msgid "Validate legally your forms in WordPress."
-msgstr ""
+msgid "Make appointments for your shop with Wilapp."
+msgstr "Consigue citas para su tienda con Wilapp."
 
 #. Author of the plugin/theme
 msgid "Closetechnology"
@@ -165,3 +171,7 @@ msgstr "Closetechnology"
 #. Author URI of the plugin/theme
 msgid "https://close.technology"
 msgstr "https://close.technology"
+
+#, fuzzy
+#~ msgid "Validate legally your forms in WordPress."
+#~ msgstr "Valida legalmente tus formularios en WordPress."

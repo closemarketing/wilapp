@@ -27,7 +27,6 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 define( 'WILAPP_VERSION', '1.0.0-beta.1' );
 define( 'WILAPP_PLUGIN', __FILE__ );
-define( 'WILAPP_DEBUG', true );
 define( 'WILAPP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WILAPP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 

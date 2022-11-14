@@ -181,7 +181,6 @@ class WilApp_Wizard {
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="name" class="wizard-form-text-label">' . __( 'Name and lastname', 'wilapp' ) . '*</label>';
 		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="wilapp-name"';
-		if ( WILAPP_DEBUG ) { $html .= ' value="Name and surname"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
 		$html .= '</div>';
@@ -190,7 +189,6 @@ class WilApp_Wizard {
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="name" class="wizard-form-text-label">' . __( 'Phone', 'wilapp' ) . '*</label>';
 		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="wilapp-phone"';
-		if ( WILAPP_DEBUG ) { $html .= ' value="669904426"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
 		$html .= '</div>';
@@ -199,7 +197,6 @@ class WilApp_Wizard {
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="email" class="wizard-form-text-label">' . __( 'Email', 'wilapp' ) . '*</label>';
 		$html .= '<input autocomplete="off" type="email" class="form-control wizard-required" id="wilapp-email"';
-		if ( WILAPP_DEBUG ) { $html .= ' value="test@pruebasclose.com"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
 		$html .= '</div>';
@@ -208,7 +205,6 @@ class WilApp_Wizard {
 		$html .= '<div class="form-group focus-input">';
 		$html .= '<label for="email" class="wizard-form-text-label">' . __( 'Write a note, e.g. any specific requirements.', 'wilapp' ) . '</label>';
 		$html .= '<input autocomplete="off" type="text" class="form-control wizard-required" id="wilapp-notes"';
-		if ( WILAPP_DEBUG ) { $html .= ' value="Notes"'; }
 		$html .= '>';
 		$html .= '<div class="wizard-form-error"></div>';
 		$html .= '</div>';
@@ -216,10 +212,9 @@ class WilApp_Wizard {
 		// GDPR.
 		$html .= '<div class="form-group focus-input form-conditions">';
 		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="wilapp-gdpr"';
-		if ( WILAPP_DEBUG ) { $html .= ' value="1"'; }
 		$html .= '>';
 		$html .= sprintf(
-			'I’ve read and agree with <a target="_blank" href="%s">Terms and Conditions</a> and <a target="_blank" href="%s">Privacy Policy</a>.',
+			__( 'I’ve read and agree with <a target="_blank" href="%s">Terms and Conditions</a> and <a target="_blank" href="%s">Privacy Policy</a>.', 'wilapp' ),
 			get_the_permalink( $this->wilapp_options['terms'] ),
 			get_the_permalink( $this->wilapp_options['privacy'] ),
 		);

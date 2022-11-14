@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wilapp\n"
-"POT-Creation-Date: 2022-11-14 13:19+0100\n"
-"PO-Revision-Date: 2022-11-14 13:19+0100\n"
+"POT-Creation-Date: 2022-11-14 13:20+0100\n"
+"PO-Revision-Date: 2022-11-14 13:20+0100\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: David <david@closemarketing.es>\n"
 "Language: es\n"
@@ -111,6 +111,16 @@ msgstr "Correo electrónico"
 #: includes/class-form-wizard.php:209
 msgid "Write a note, e.g. any specific requirements."
 msgstr "Escribe una nota, por ejemplo, cualquier requisito específico."
+
+#: includes/class-form-wizard.php:222
+#, php-format
+msgid ""
+"I’ve read and agree with <a target=\"_blank\" href=\"%s\">Terms and "
+"Conditions</a> and <a target=\"_blank\" href=\"%s\">Privacy Policy</a>."
+msgstr ""
+"He leído y estoy de acuerdo con los <a target=\"_blank\" href=\"%s"
+"\">Términos y Condiciones</a> y la <a target=\"_blank\" href=\"%s"
+"\">Política de Privacidad</a>."
 
 #: includes/class-form-wizard.php:232
 msgid "Confirm"

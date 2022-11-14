@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Wilapp\n"
-"POT-Creation-Date: 2022-11-14 13:19+0100\n"
+"POT-Creation-Date: 2022-11-14 13:20+0100\n"
 "PO-Revision-Date: 2022-11-14 12:20+0100\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: David <david@closemarketing.es>\n"
@@ -110,6 +110,13 @@ msgstr ""
 
 #: includes/class-form-wizard.php:209
 msgid "Write a note, e.g. any specific requirements."
+msgstr ""
+
+#: includes/class-form-wizard.php:222
+#, php-format
+msgid ""
+"I’ve read and agree with <a target=\"_blank\" href=\"%s\">Terms and "
+"Conditions</a> and <a target=\"_blank\" href=\"%s\">Privacy Policy</a>."
 msgstr ""
 
 #: includes/class-form-wizard.php:232

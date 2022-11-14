@@ -167,9 +167,17 @@ class Wilapp_Admin_Settings {
 		);
 
 		add_settings_field(
-			'wilapp_worker_select',
-			__( 'Who cames first in the appoinment Professional or disponibility?', 'wilapp' ),
-			array( $this, 'wilapp_worker_select' ),
+			'wilapp_terms',
+			__( 'Terms and conditions page', 'wilapp' ),
+			array( $this, 'terms_callback' ),
+			'wilapp_options',
+			'admin_wilapp_settings'
+		);
+
+		add_settings_field(
+			'wilapp_privacy',
+			__( 'Privacy policy page', 'wilapp' ),
+			array( $this, 'privacy_callback' ),
 			'wilapp_options',
 			'admin_wilapp_settings'
 		);
@@ -195,6 +203,14 @@ class Wilapp_Admin_Settings {
 
 		if ( isset( $input['password'] ) ) {
 			$sanitary_values['password'] = sanitize_text_field( $input['password'] );
+		}
+
+		if ( isset( $input['terms'] ) ) {
+			$sanitary_values['terms'] = sanitize_text_field( $input['terms'] );
+		}
+
+		if ( isset( $input['privacy'] ) ) {
+			$sanitary_values['privacy'] = sanitize_text_field( $input['privacy'] );
 		}
 
 		$helpers_wilapp->login( $sanitary_values['username'], $sanitary_values['password'] );
@@ -224,6 +240,58 @@ class Wilapp_Admin_Settings {
 			isset( $this->wilapp_settings['password'] ) ? esc_attr( $this->wilapp_settings['password'] ) : ''
 		);
 	}
+
+	/**
+	 * Terms and Conditions page
+	 *
+	 * @return html
+	 */
+	public function terms_callback() {
+		//* Get posts in array
+		$args_query    = array(
+			'post_type'      => 'page',
+			'posts_per_page' => -1,
+			'orderby'        => 'title', // menu_order, rand, date
+			'order'          => 'ASC',
+		);
+		$posts_array   = get_posts( $args_query );
+		$select_page   = '<option value=""></option>';
+		foreach ( $posts_array as $post_single ) {
+			$select_page .= '<option value="' . $post_single->ID . '"';
+			if ( isset( $this->wilapp_settings['terms'] ) && $this->wilapp_settings['terms'] == $post_single->ID ) {
+				$select_page .= ' selected';
+			}
+			$select_page .= '>' . $post_single->post_title . '</option>';
+		}
+		echo '<select id="wilapp_terms" name="wilapp_options[terms]">' . $select_page . '</select>';
+	}
+
+	/**
+	 * Privacy Policy page
+	 *
+	 * @return html
+	 */
+	public function privacy_callback() {
+		//* Get posts in array
+		$args_query    = array(
+			'post_type'      => 'page',
+			'posts_per_page' => -1,
+			'orderby'        => 'title', // menu_order, rand, date
+			'order'          => 'ASC',
+		);
+		$posts_array   = get_posts( $args_query );
+		$select_page   = '<option value=""></option>';
+		foreach ( $posts_array as $post_single ) {
+			$select_page .= '<option value="' . $post_single->ID . '"';
+			if ( isset( $this->wilapp_settings['privacy'] ) && $this->wilapp_settings['privacy'] == $post_single->ID ) {
+				$select_page .= ' selected';
+			}
+			$select_page .= '>' . $post_single->post_title . '</option>';
+		}
+		echo '<select id="wilapp_privacy" name="wilapp_options[privacy]">' . $select_page . '</select>';
+	}
 }
 
 new Wilapp_Admin_Settings();
+
+

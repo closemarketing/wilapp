@@ -218,7 +218,12 @@ class WilApp_Wizard {
 		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="wilapp-gdpr"';
 		if ( WILAPP_DEBUG ) { $html .= ' value="1"'; }
 		$html .= '>';
-		$html .= 'I’ve read and agree with <a target="_blank" href="#">Terms and Conditions</a> and <a target="_blank" href="#">Privacy Policy</a>. </label>';
+		$html .= sprintf(
+			'I’ve read and agree with <a target="_blank" href="%s">Terms and Conditions</a> and <a target="_blank" href="%s">Privacy Policy</a>.',
+			get_the_permalink( $this->wilapp_options['terms'] ),
+			get_the_permalink( $this->wilapp_options['privacy'] ),
+		);
+		$html .= '</label>';
 		$html .= '<div class="wizard-form-error"></div>';
 		$html .= '</div>';
 

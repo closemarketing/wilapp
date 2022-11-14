@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Wilapp
  * Plugin URI:  https://wilapp.com
- * Description: Validate legally your forms in WordPress.
- * Version:     1.0.0
+ * Description: Make appointments for your shop with Wilapp.
+ * Version:     1.0.0-beta.1
  * Author:      Closetechnology
  * Author URI:  https://close.technology
  * Text Domain: wilapp
@@ -25,7 +25,7 @@
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-define( 'WILAPP_VERSION', '1.0.0' );
+define( 'WILAPP_VERSION', '1.0.0-beta.1' );
 define( 'WILAPP_PLUGIN', __FILE__ );
 define( 'WILAPP_DEBUG', true );
 define( 'WILAPP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

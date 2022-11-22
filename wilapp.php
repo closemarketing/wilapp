@@ -4,7 +4,7 @@
  * Plugin URI:  https://wilapp.com
  * Description: Make appointments for your shop with Wilapp.
  * Version:     1.0.0
- * Author:      Closetechnology
+ * Author:      wilapp
  * Author URI:  https://close.technology
  * Text Domain: wilapp
  * Domain Path: /languages

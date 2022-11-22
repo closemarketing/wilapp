@@ -211,7 +211,7 @@ class WilApp_Wizard {
 		$html .= '>';
 		$html .= sprintf(
 			// translators: %s link terms, %s link privacy.
-			esc_html__( 'I’ve read and agree with <a target="_blank" href="%1$s">Terms and Conditions</a> and <a target="_blank" href="%2$s">Privacy Policy</a>.', 'wilapp' ),
+			__( 'I’ve read and agree with <a target="_blank" href="%1$s">Terms and Conditions</a> and <a target="_blank" href="%2$s">Privacy Policy</a>.', 'wilapp' ),
 			get_the_permalink( $this->wilapp_options['terms'] ),
 			get_the_permalink( $this->wilapp_options['privacy'] ),
 		);
@@ -282,7 +282,7 @@ class WilApp_Wizard {
 		$worker     = isset( $_SESSION['wilapp']['worker'] ) ? sanitize_text_field( wp_unslash( $_SESSION['wilapp']['worker'] ) ) : '';
 		$nonce_step = isset( $_POST['validate_step_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['validate_step_nonce'] ) ) : '';
 
-		if ( wp_verify_nonce( $nonce_step, 'validate_step' ) ) {
+		if ( wp_verify_nonce( $nonce_step, 'validate_step_nonce' ) ) {
 			$professional = get_transient( 'wilapp_query_professional' );
 			$services     = $professional['services'];
 			// Request from page 1.
@@ -378,7 +378,7 @@ class WilApp_Wizard {
 		$notes     = isset( $_POST['notes'] ) ? sanitize_text_field( wp_unslash( $_POST['notes'] ) ) : '';
 		$nonce     = isset( $_POST['validate_submit_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['validate_submit_nonce'] ) ) : '';
 
-		if ( wp_verify_nonce( $nonce, 'validate_submit' ) ) {
+		if ( wp_verify_nonce( $nonce, 'validate_submit_nonce' ) ) {
 			$professional = get_transient( 'wilapp_query_professional' );
 			$services     = $professional['services'];
 			$service      = $helpers_wilapp->filter_service( $services, $_SESSION['wilapp']['service_id'] );

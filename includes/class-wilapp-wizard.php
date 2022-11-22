@@ -80,18 +80,15 @@ class WilApp_Wizard {
 			)
 		);
 	}
-
 	/**
-	 * Renders form
+	 * Renders Form
 	 *
 	 * @return void
 	 */
-	public function render_form( $atts = array() ) {
+	public function render_form() {
 		global $helpers_wilapp;
-		$mode        = isset( $atts['type'] ) ? $atts['type'] : 'full';
-		$is_recupera = isset( $atts['recupera'] ) ? $atts['recupera'] : 'no';
 
-		$html  = '<section class="wilapp-wizard" data-type="' . $mode . '" data-recupera="' . $is_recupera . '">';
+		$html  = '<section class="wilapp-wizard">';
 		$html .= '<h2>' . __( 'Make an appointment', 'wilapp' ) . '</h2>';
 		$html .= '<div class="form-wizard"><form action="" method="post" role="form" autocomplete="off">';
 
@@ -120,7 +117,6 @@ class WilApp_Wizard {
 		$html .= '<div class="row"><ul class="options categories">';
 		foreach ( $categories as $category ) {
 			$html .= '<li class="wilapp-item" data-cat-id="' . esc_attr( $category['id'] ) . '">';
-			// decoding="auto" loading="eager" 
 			$html .= '<img src="' . esc_url( $category['image'] ) . '" width="80" height="60" />';
 			$html .= esc_html( $category['name'] );
 			$html .= '</li>';
@@ -214,7 +210,8 @@ class WilApp_Wizard {
 		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="wilapp-gdpr"';
 		$html .= '>';
 		$html .= sprintf(
-			__( 'I’ve read and agree with <a target="_blank" href="%s">Terms and Conditions</a> and <a target="_blank" href="%s">Privacy Policy</a>.', 'wilapp' ),
+			// translators: %s link terms, %s link privacy.
+			esc_html__( 'I’ve read and agree with <a target="_blank" href="%1$s">Terms and Conditions</a> and <a target="_blank" href="%2$s">Privacy Policy</a>.', 'wilapp' ),
 			get_the_permalink( $this->wilapp_options['terms'] ),
 			get_the_permalink( $this->wilapp_options['privacy'] ),
 		);
@@ -227,7 +224,7 @@ class WilApp_Wizard {
 		$html .= '<a href="#" id="wilapp-submit" class="button form-wizard-submit"><span class="icon-calendar"></span>' . esc_html__( 'Confirm', 'wilapp' ) . '</a>';
 		$html .= '<div id="response-error-submit" class="response-error"></div>';
 		$html .= '</div>';
-	
+
 		$html .= '<div id="response-error-page-6" class="response-error"></div>';
 		$html .= '</fieldset>';
 
@@ -257,41 +254,41 @@ class WilApp_Wizard {
 	 */
 	public function wizard_step() {
 		global $helpers_wilapp;
-		$page       = isset( $_POST['page'] ) ? (int) sanitize_text_field( $_POST['page'] ) : 1;
+		$page = isset( $_POST['page'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['page'] ) ) : 1;
 		session_start();
 		if ( 2 === $page ) {
 			unset( $_SESSION['wilapp'] );
 		}
-		if ( ! empty( $_POST['cat_id'] ) && 'null' !== $_POST['cat_id'] ) { 
-			$_SESSION['wilapp']['cat_id'] = sanitize_text_field( $_POST['cat_id'] );
+		if ( ! empty( $_POST['cat_id'] ) && 'null' !== $_POST['cat_id'] ) {
+			$_SESSION['wilapp']['cat_id'] = sanitize_text_field( wp_unslash( $_POST['cat_id'] ) );
 		}
-		if ( ! empty( $_POST['service_id'] ) && 'null' !== $_POST['service_id'] ) { 
-			$_SESSION['wilapp']['service_id'] = sanitize_text_field( $_POST['service_id'] );
+		if ( ! empty( $_POST['service_id'] ) && 'null' !== $_POST['service_id'] ) {
+			$_SESSION['wilapp']['service_id'] = sanitize_text_field( wp_unslash( $_POST['service_id'] ) );
 		}
-		if ( ! empty( $_POST['day'] ) && 'null' !== $_POST['day'] ) { 
-			$_SESSION['wilapp']['day'] = sanitize_text_field( $_POST['day'] );
+		if ( ! empty( $_POST['day'] ) && 'null' !== $_POST['day'] ) {
+			$_SESSION['wilapp']['day'] = sanitize_text_field( wp_unslash( $_POST['day'] ) );
 		}
-		if ( ! empty( $_POST['hour'] ) && 'null' !== $_POST['hour'] ) { 
-			$_SESSION['wilapp']['hour'] = sanitize_text_field( $_POST['hour'] );
+		if ( ! empty( $_POST['hour'] ) && 'null' !== $_POST['hour'] ) {
+			$_SESSION['wilapp']['hour'] = sanitize_text_field( wp_unslash( $_POST['hour'] ) );
 		}
-		if ( ! empty( $_POST['worker'] ) && 'null' !== $_POST['worker'] ) { 
-			$_SESSION['wilapp']['worker'] = sanitize_text_field( $_POST['worker'] );
+		if ( ! empty( $_POST['worker'] ) && 'null' !== $_POST['worker'] ) {
+			$_SESSION['wilapp']['worker'] = sanitize_text_field( wp_unslash( $_POST['worker'] ) );
 		}
 
-		$cat_id     = isset( $_SESSION['wilapp']['cat_id'] ) ? $_SESSION['wilapp']['cat_id'] : '';
-		$service_id = isset( $_SESSION['wilapp']['service_id'] ) ? $_SESSION['wilapp']['service_id'] : '';
-		$day        = isset( $_SESSION['wilapp']['day'] ) ? $_SESSION['wilapp']['day'] : '';
-		$hour       = isset( $_SESSION['wilapp']['hour'] ) ? $_SESSION['wilapp']['hour'] : '';
-		$worker     = isset( $_SESSION['wilapp']['worker'] ) ? $_SESSION['wilapp']['worker'] : '';
+		$cat_id     = isset( $_SESSION['wilapp']['cat_id'] ) ? sanitize_text_field( wp_unslash( $_SESSION['wilapp']['cat_id'] ) ) : '';
+		$service_id = isset( $_SESSION['wilapp']['service_id'] ) ? sanitize_text_field( wp_unslash( $_SESSION['wilapp']['service_id'] ) ) : '';
+		$day        = isset( $_SESSION['wilapp']['day'] ) ? sanitize_text_field( wp_unslash( $_SESSION['wilapp']['day'] ) ) : '';
+		$hour       = isset( $_SESSION['wilapp']['hour'] ) ? sanitize_text_field( wp_unslash( $_SESSION['wilapp']['hour'] ) ) : '';
+		$worker     = isset( $_SESSION['wilapp']['worker'] ) ? sanitize_text_field( wp_unslash( $_SESSION['wilapp']['worker'] ) ) : '';
+		$nonce_step = isset( $_POST['validate_step_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['validate_step_nonce'] ) ) : '';
 
-		wp_verify_nonce( $_POST['validate_step_nonce'], 'validate_step' );
-		if ( true ) {
+		if ( wp_verify_nonce( $nonce_step, 'validate_step' ) ) {
 			$professional = get_transient( 'wilapp_query_professional' );
 			$services     = $professional['services'];
 			// Request from page 1.
 			if ( 2 === $page ) {
 				$services_cat = $helpers_wilapp->filter_services( $services, $cat_id );
-				$options = array();
+				$options      = array();
 				foreach ( $services_cat as $service ) {
 					$options[] = array(
 						'id'    => $service['id'],
@@ -310,12 +307,12 @@ class WilApp_Wizard {
 				$end_time   = strtotime( '+' . WILAPP_MAXDAYS . ' day' );
 				$options    = array();
 				for ( $i = $start_time; $i <= $end_time; $i = $i + 86400 ) {
-					$week_day = (int) $helpers_wilapp->convert_week( date( 'w', $i ) );
+					$week_day = (int) $helpers_wilapp->convert_week( gmdate( 'w', $i ) );
 					if ( isset( $offer_days[ $week_day ] ) && $offer_days[ $week_day ] ) {
 						$options[] = array(
-							'id'    => date( 'Y-m-d', $i ),
-							'name'  => $helpers_wilapp->get_week_name( $week_day ) . ' ' . date( 'd-m-Y', $i ),
-							'type'  => 'appointment-weekday',
+							'id'   => gmdate( 'Y-m-d', $i ),
+							'name' => $helpers_wilapp->get_week_name( $week_day ) . ' ' . gmdate( 'd-m-Y', $i ),
+							'type' => 'appointment-weekday',
 						);
 					}
 				}
@@ -325,15 +322,15 @@ class WilApp_Wizard {
 				$options           = array();
 				$service           = $helpers_wilapp->filter_service( $services, $service_id );
 				$schedules_service = $helpers_wilapp->get_schedules( $professional, $service );
-				
+
 				$start_time = strtotime( $day . ' ' . $schedules_service['init'] );
 				$end_time   = strtotime( $day . ' ' . $schedules_service['end'] );
 				$options    = array();
 				for ( $i = $start_time; $i <= $end_time; $i = $i + $schedules_service['duration'] * 60 ) {
 					$options[] = array(
-						'id'    => date( 'H:i', $i ),
-						'name'  => date( 'H:i', $i ),
-						'type'  => 'appointment-hour',
+						'id'   => gmdate( 'H:i', $i ),
+						'name' => gmdate( 'H:i', $i ),
+						'type' => 'appointment-hour',
 					);
 				}
 				wp_send_json_success( $options );
@@ -347,7 +344,7 @@ class WilApp_Wizard {
 					)
 				);
 				// Workers.
-				$options    = array();
+				$options = array();
 				foreach ( $workers_service as $worker ) {
 					$options[] = array(
 						'id'    => $worker['id'],
@@ -365,7 +362,7 @@ class WilApp_Wizard {
 	/**
 	 * Validates Final submission
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function validate_submit() {
 		global $helpers_wilapp;
@@ -374,21 +371,21 @@ class WilApp_Wizard {
 			return false;
 		}
 
-		$worker_id = isset( $_POST['worker_id'] ) ? sanitize_text_field( $_POST['worker_id'] ) : '';
-		$name      = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
-		$phone     = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
-		$email     = isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : '';
-		$notes     = isset( $_POST['notes'] ) ? sanitize_text_field( $_POST['notes'] ) : '';
+		$worker_id = isset( $_POST['worker_id'] ) ? sanitize_text_field( wp_unslash( $_POST['worker_id'] ) ) : '';
+		$name      = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$phone     = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
+		$email     = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
+		$notes     = isset( $_POST['notes'] ) ? sanitize_text_field( wp_unslash( $_POST['notes'] ) ) : '';
+		$nonce     = isset( $_POST['validate_submit_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['validate_submit_nonce'] ) ) : '';
 
-		wp_verify_nonce( $_POST['validate_submit_nonce'], 'validate_submit' );
-		if ( true ) {
+		if ( wp_verify_nonce( $nonce, 'validate_submit' ) ) {
 			$professional = get_transient( 'wilapp_query_professional' );
 			$services     = $professional['services'];
 			$service      = $helpers_wilapp->filter_service( $services, $_SESSION['wilapp']['service_id'] );
 
-			// Process dates: Y-m-d H:i:s
+			// Process dates: Y-m-d H:i:s.
 			$start_date = $_SESSION['wilapp']['day'] . ' ' . $_SESSION['wilapp']['hour'];
-			$end_date  = date( 'Y-m-d H:i', strtotime( $start_date ) + $service['duration'] * 60 );
+			$end_date   = gmdate( 'Y-m-d H:i', strtotime( $start_date ) + $service['duration'] * 60 );
 
 			$result_appointment = $helpers_wilapp->post_appointment(
 				$professional,

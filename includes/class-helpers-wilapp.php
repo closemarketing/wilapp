@@ -21,8 +21,9 @@ class Helpers_Wilapp {
 	/**
 	 * POSTS API from Wilapp
 	 *
-	 * @param string $apikey API Key.
-	 * @param string $module Module.
+	 * @param string $credentials Credentials to login API.
+	 * @param string $endpoint Function to execute.
+	 * @param string $method Method API.
 	 * @param string $query Query.
 	 * @return array
 	 */
@@ -30,12 +31,12 @@ class Helpers_Wilapp {
 		$args = array(
 			'method'  => $method,
 			'timeout' => 30,
-			'body'    => array()
+			'body'    => array(),
 		);
 		if ( ! empty( $credentials['auth_key'] ) ) {
 			$args['headers'] = array(
 				'Authorization' => 'Bearer ' . $credentials['auth_key'],
-			); 
+			);
 		} elseif ( ! empty( $credentials['username'] ) && ! empty( $credentials['password'] ) ) {
 			$args['body'] = array(
 				'email'    => $credentials['username'],
@@ -51,7 +52,7 @@ class Helpers_Wilapp {
 		$result_body = wp_remote_retrieve_body( $result );
 		$body        = json_decode( $result_body, true );
 
-		if ( isset( $body['status'] ) && 400 == $body['status'] ) {
+		if ( isset( $body['status'] ) && 400 === $body['status'] ) {
 			return array(
 				'status' => 'error',
 				'data'   => isset( $body['message'] ) ? $body['message'] : '',
@@ -67,8 +68,9 @@ class Helpers_Wilapp {
 	/**
 	 * Login settings
 	 *
-	 * @param array $settings
-	 * @return void
+	 * @param array $username Username login.
+	 * @param array $password Password login.
+	 * @return array
 	 */
 	public function login( $username = '', $password = '' ) {
 		if ( empty( $username ) || empty( $password ) ) {
@@ -116,8 +118,8 @@ class Helpers_Wilapp {
 	/**
 	 * Send appointment to Wilapp
 	 *
-	 * @param array $professional
-	 * @param array $query
+	 * @param array $professional Professional to log.
+	 * @param array $query Query of API.
 	 * @return array
 	 */
 	public function post_appointment( $professional, $query ) {
@@ -135,11 +137,11 @@ class Helpers_Wilapp {
 	 * Get available schedules from professional and service
 	 *
 	 * @param array $professional Professional data.
-	 * @param array $service      Sevice data.
+	 * @param array $query        Service data.
 	 * @return array
 	 */
 	public function get_workers( $professional, $query ) {
-		
+
 		$result_workers = $this->api(
 			array(
 				'auth_key' => $professional['auth_key'],
@@ -159,8 +161,8 @@ class Helpers_Wilapp {
 	/**
 	 * Filters services by category_id
 	 *
-	 * @param array $services
-	 * @param string $category_id
+	 * @param array  $services Services to access.
+	 * @param string $category_id Category of filter.
 	 * @return array
 	 */
 	public function filter_services( $services, $category_id ) {
@@ -170,15 +172,14 @@ class Helpers_Wilapp {
 				$filtered_services[] = $service;
 			}
 		}
-			
 		return $filtered_services;
 	}
 
 	/**
 	 * Filters services by category_id
 	 *
-	 * @param array $services
-	 * @param string $category_id
+	 * @param array  $services Services to access.
+	 * @param string $service_id Service ID.
 	 * @return array
 	 */
 	public function filter_service( $services, $service_id ) {
@@ -188,10 +189,16 @@ class Helpers_Wilapp {
 				$filtered_service = $service;
 			}
 		}
-			
+
 		return $filtered_service;
 	}
 
+	/**
+	 * Convert week to EU format.
+	 *
+	 * @param int $week_day Week day.
+	 * @return int
+	 */
 	public function convert_week( $week_day ) {
 		$european_day = array(
 			0 => 6,
@@ -206,6 +213,12 @@ class Helpers_Wilapp {
 		return isset( $european_day[ $week_day ] ) ? $european_day[ $week_day ] : 0;
 	}
 
+	/**
+	 * Get week name.
+	 *
+	 * @param int $euro_week_day Euro week day.
+	 * @return string
+	 */
 	public function get_week_name( $euro_week_day ) {
 		$week_names = array(
 			0 => __( 'Monday', 'wilapp' ),
@@ -218,18 +231,6 @@ class Helpers_Wilapp {
 		);
 
 		return isset( $week_names[ $euro_week_day ] ) ? $week_names[ $euro_week_day ] : '';
-	}
-
-	/**
-	 * Creates and generates PDF for signature
-	 *
-	 * @param string $template
-	 * @return void
-	 */
-	public function create_entry( $template_id, $merge_vars, $add_header = false ) {
-		
-
-		return false;
 	}
 }
 

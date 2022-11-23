@@ -384,14 +384,15 @@ class WilApp_Wizard {
 			$service      = $helpers_wilapp->filter_service( $services, $_SESSION['wilapp']['service_id'] );
 
 			// Process dates: Y-m-d H:i:s.
-			$start_date = $_SESSION['wilapp']['day'] . ' ' . $_SESSION['wilapp']['hour'];
-			$end_date   = gmdate( 'Y-m-d H:i', strtotime( $start_date ) + $service['duration'] * 60 );
+			$start_date  = sanitize_text_field( wp_unslash( $_SESSION['wilapp']['day'] ) ) . ' ';
+			$start_date .= sanitize_text_field( wp_unslash( $_SESSION['wilapp']['hour'] ) );
+			$end_date    = gmdate( 'Y-m-d H:i', strtotime( $start_date ) + $service['duration'] * 60 );
 
 			$result_appointment = $helpers_wilapp->post_appointment(
 				$professional,
 				array(
 					'professional_id' => $professional['id'],
-					'service_id'      => $_SESSION['wilapp']['service_id'],
+					'service_id'      => sanitize_text_field( wp_unslash( $_SESSION['wilapp']['service_id'] ) ),
 					'worker_id'       => $worker_id,
 					'start_date'      => $start_date,
 					'end_date'        => $end_date,

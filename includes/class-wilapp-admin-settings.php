@@ -271,15 +271,14 @@ class Wilapp_Admin_Settings {
 			'order'          => 'ASC',
 		);
 		$posts_array = get_posts( $args_query );
-		$select_page = '<option value=""></option>';
+		echo '<select id="wilapp_terms" name="wilapp_options[terms]">';
+		echo '<option value=""></option>';
 		foreach ( $posts_array as $post_single ) {
-			$select_page .= '<option value="' . $post_single->ID . '"';
-			if ( isset( $this->wilapp_settings['terms'] ) && (int) $this->wilapp_settings['terms'] === $post_single->ID ) {
-				$select_page .= ' selected';
-			}
-			$select_page .= '>' . $post_single->post_title . '</option>';
+			echo '<option value="' . esc_html( $post_single->ID ) . '"';
+			selected( $this->wilapp_settings['terms'], $post_single->ID );
+			echo '>' . esc_html( $post_single->post_title ) . '</option>';
 		}
-		echo '<select id="wilapp_terms" name="wilapp_options[terms]">' . $select_page . '</select>'; // phpcs:ignore
+		echo '</select>';
 	}
 
 	/**
@@ -295,15 +294,14 @@ class Wilapp_Admin_Settings {
 			'order'          => 'ASC',
 		);
 		$posts_array = get_posts( $args_query );
-		$select_page = '<option value=""></option>';
+		echo '<select id="wilapp_privacy" name="wilapp_options[privacy]">';
+		echo '<option value=""></option>';
 		foreach ( $posts_array as $post_single ) {
-			$select_page .= '<option value="' . $post_single->ID . '"';
-			if ( isset( $this->wilapp_settings['privacy'] ) && (int) $this->wilapp_settings['privacy'] === $post_single->ID ) {
-				$select_page .= ' selected';
-			}
-			$select_page .= '>' . $post_single->post_title . '</option>';
+			echo '<option value="' . esc_html( $post_single->ID ) . '"';
+			selected( $this->wilapp_settings['privacy'], $post_single->ID );
+			echo '>' . esc_html( $post_single->post_title ) . '</option>';
 		}
-		echo '<select id="wilapp_privacy" name="wilapp_options[privacy]">' . $select_page . '</select>'; // phpcs:ignore
+		echo '</select>';
 	}
 }
 

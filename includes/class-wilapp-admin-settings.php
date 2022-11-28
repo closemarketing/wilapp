@@ -36,8 +36,6 @@ class Wilapp_Admin_Settings {
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'page_init' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices_action' ) );
-
-		register_activation_hook( WILAPP_PLUGIN, array( $this, 'loads_templates_cpt' ) );
 	}
 
 	/**

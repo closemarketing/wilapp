@@ -36,16 +36,14 @@ class Wilapp_Admin_Settings {
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'page_init' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices_action' ) );
-
-		register_activation_hook( WILAPP_PLUGIN, array( $this, 'loads_templates_cpt' ) );
 	}
 
 	/**
-	* function_description
-	*
-	* @return void
-	*/
-	function admin_scripts() {
+	 * Admin Scripts
+	 *
+	 * @return void
+	 */
+	public function admin_scripts() {
 		wp_enqueue_style(
 			'wilapp-admin',
 			WILAPP_PLUGIN_URL . 'includes/assets/wilapp-admin.css',
@@ -53,6 +51,7 @@ class Wilapp_Admin_Settings {
 			WILAPP_VERSION
 		);
 	}
+
 	/**
 	 * Adds plugin page.
 	 *
@@ -68,7 +67,13 @@ class Wilapp_Admin_Settings {
 			array( $this, 'create_admin_page' )
 		);
 	}
-	function admin_notices_action() {
+
+	/**
+	 * Admin notices
+	 *
+	 * @return void
+	 */
+	public function admin_notices_action() {
 		settings_errors( 'wilapp_notification_error' );
 	}
 
@@ -79,7 +84,7 @@ class Wilapp_Admin_Settings {
 	 */
 	public function create_admin_page() {
 		global $helpers_wilapp;
-		$this->wilapp_settings = get_option('wilapp_options');
+		$this->wilapp_settings = get_option( 'wilapp_options' );
 		?>
 		<div class="header-wrap">
 			<div class="wrapper">
@@ -87,7 +92,7 @@ class Wilapp_Admin_Settings {
 				<div id="nag-container"></div>
 				<div class="header wilapp-header">
 					<div class="logo">
-						<img src="<?php echo WILAPP_PLUGIN_URL . 'includes/assets/logo.svg'; ?>" height="50" width="154"/>
+						<img src="<?php echo esc_url( WILAPP_PLUGIN_URL ) . 'includes/assets/logo.svg'; ?>" height="50" width="154"/>
 						<h2><?php esc_html_e( 'Wilapp Settings', 'wilapp' ); ?></h2>
 					</div>
 					<div class="connection">
@@ -103,7 +108,7 @@ class Wilapp_Admin_Settings {
 
 							esc_html_e( 'Connected to Wilapp', 'wilapp' );
 							$professional_name = isset( $login_result['data']['public_name'] ) ? $login_result['data']['public_name'] : '';
-							echo ': ' . $professional_name;
+							echo ': ' . esc_html( $professional_name );
 						}
 						?>
 						</p>
@@ -227,6 +232,11 @@ class Wilapp_Admin_Settings {
 		esc_html_e( 'Put the connection API key settings in order to connect external data.', 'wilapp' );
 	}
 
+	/**
+	 * Username callback
+	 *
+	 * @return void
+	 */
 	public function username_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="wilapp_options[username]" id="wilapp_username" value="%s">',
@@ -234,6 +244,11 @@ class Wilapp_Admin_Settings {
 		);
 	}
 
+	/**
+	 * Password callback
+	 *
+	 * @return void
+	 */
 	public function password_callback() {
 		printf(
 			'<input class="regular-text" type="password" name="wilapp_options[password]" id="password" value="%s">',
@@ -244,51 +259,47 @@ class Wilapp_Admin_Settings {
 	/**
 	 * Terms and Conditions page
 	 *
-	 * @return html
+	 * @return void
 	 */
 	public function terms_callback() {
-		//* Get posts in array
-		$args_query    = array(
+		$args_query  = array(
 			'post_type'      => 'page',
 			'posts_per_page' => -1,
-			'orderby'        => 'title', // menu_order, rand, date
+			'orderby'        => 'title',
 			'order'          => 'ASC',
 		);
-		$posts_array   = get_posts( $args_query );
-		$select_page   = '<option value=""></option>';
+		$posts_array = get_posts( $args_query );
+		echo '<select id="wilapp_terms" name="wilapp_options[terms]">';
+		echo '<option value=""></option>';
 		foreach ( $posts_array as $post_single ) {
-			$select_page .= '<option value="' . $post_single->ID . '"';
-			if ( isset( $this->wilapp_settings['terms'] ) && $this->wilapp_settings['terms'] == $post_single->ID ) {
-				$select_page .= ' selected';
-			}
-			$select_page .= '>' . $post_single->post_title . '</option>';
+			echo '<option value="' . esc_html( $post_single->ID ) . '"';
+			selected( $this->wilapp_settings['terms'], $post_single->ID );
+			echo '>' . esc_html( $post_single->post_title ) . '</option>';
 		}
-		echo '<select id="wilapp_terms" name="wilapp_options[terms]">' . $select_page . '</select>';
+		echo '</select>';
 	}
 
 	/**
 	 * Privacy Policy page
 	 *
-	 * @return html
+	 * @return void
 	 */
 	public function privacy_callback() {
-		//* Get posts in array
-		$args_query    = array(
+		$args_query  = array(
 			'post_type'      => 'page',
 			'posts_per_page' => -1,
-			'orderby'        => 'title', // menu_order, rand, date
+			'orderby'        => 'title',
 			'order'          => 'ASC',
 		);
-		$posts_array   = get_posts( $args_query );
-		$select_page   = '<option value=""></option>';
+		$posts_array = get_posts( $args_query );
+		echo '<select id="wilapp_privacy" name="wilapp_options[privacy]">';
+		echo '<option value=""></option>';
 		foreach ( $posts_array as $post_single ) {
-			$select_page .= '<option value="' . $post_single->ID . '"';
-			if ( isset( $this->wilapp_settings['privacy'] ) && $this->wilapp_settings['privacy'] == $post_single->ID ) {
-				$select_page .= ' selected';
-			}
-			$select_page .= '>' . $post_single->post_title . '</option>';
+			echo '<option value="' . esc_html( $post_single->ID ) . '"';
+			selected( $this->wilapp_settings['privacy'], $post_single->ID );
+			echo '>' . esc_html( $post_single->post_title ) . '</option>';
 		}
-		echo '<select id="wilapp_privacy" name="wilapp_options[privacy]">' . $select_page . '</select>';
+		echo '</select>';
 	}
 }
 

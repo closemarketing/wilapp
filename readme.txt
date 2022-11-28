@@ -1,6 +1,6 @@
 === Wilapp ===
 Contributors: closetechnology, davidperez, sacrajaimez
-Tags: forms, signature, gravityforms, contact form 7, woocommerce
+Tags: appointments, booking, calendar, service, booking system
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 6.1

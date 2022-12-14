@@ -12,6 +12,25 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Creates a Wizard to gets appointments to Wilapp.
 
 == Description ==
+With Wilapp you can schedule appointments at a beauty center or hairdresser quickly and easily. Allow your clients to request a service, specifications, date and time in a comfortable and simple way.
+
+Benefits for professionals:
+- Full schedule: when unsubscribed, the new user can select that time to optimize appointments with clients
+- Avoid wasting time with calls and schedule management
+- You will easily see the scheduled appointments
+
+Benefits for customers:
+- Request your appointment at any time of the day
+- You will see in a simple way the moments of availability
+
+= How to integrate it =
+In order to integrate it into your website you must have a Wilapp account. If you are not yet a user you can do it here.
+
+= What is Wilapp? =
+Wilapp is a digital platform also available in an app version where apart from working as a digital agenda, we can look for a job and be aware of the training that is done around the country. These services are focused on professionals in the wellness sector for better communication and administration.
+
+= What do you need? =
+You will have to register an account in their [website](https://www.wilapp.com/contacto-wilapp/)
 
 == Installation ==
 

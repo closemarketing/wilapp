@@ -49,6 +49,13 @@ function goToNextPage( current, options ) {
 	options.forEach(element => {
 		var li = document.createElement('li');
 		let name = document.createTextNode(element.name);
+
+		if ( element.image ) {
+			let img  = document.createElement('img');
+			img.src = element.image;
+			img.style.width = "80px";
+			li.append(img);
+		}
 		li.append(name);
 		li.className = 'wilapp-item';
 		li.setAttribute( 'data-' + element.type, element.id );

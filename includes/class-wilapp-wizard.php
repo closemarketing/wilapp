@@ -300,15 +300,16 @@ class WilApp_Wizard {
 				wp_send_json_success( $options );
 			} elseif ( 3 === $page ) {
 				// Schedules Day.
-				$service    = $helpers_wilapp->filter_service( $services, $service_id );
-				$offer_days = explode( ',', $service['offer_days'] );
+				$service           = $helpers_wilapp->filter_service( $services, $service_id );
+				$schedules_service = $helpers_wilapp->get_schedules( $professional, $service );
+				$services_day      = explode( ',', $schedules_service['day'] );
 
 				$start_time = strtotime( 'today' );
 				$end_time   = strtotime( '+' . WILAPP_MAXDAYS . ' day' );
 				$options    = array();
 				for ( $i = $start_time; $i <= $end_time; $i = $i + 86400 ) {
 					$week_day = (int) $helpers_wilapp->convert_week( gmdate( 'w', $i ) );
-					if ( isset( $offer_days[ $week_day ] ) && $offer_days[ $week_day ] ) {
+					if ( isset( $services_day[ $week_day ] ) && $services_day[ $week_day ] ) {
 						$options[] = array(
 							'id'   => gmdate( 'Y-m-d', $i ),
 							'name' => $helpers_wilapp->get_week_name( $week_day ) . ' ' . gmdate( 'd-m-Y', $i ),
@@ -335,14 +336,7 @@ class WilApp_Wizard {
 				}
 				wp_send_json_success( $options );
 			} elseif ( 5 === $page ) {
-				$workers_service = $helpers_wilapp->get_workers(
-					$professional,
-					array(
-						'service_id' => $service_id,
-						'date'       => $day,
-						'time'       => $hour,
-					)
-				);
+				$workers_service = $helpers_wilapp->get_workers( $professional );
 				// Workers.
 				$options = array();
 				foreach ( $workers_service as $worker ) {

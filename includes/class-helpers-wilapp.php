@@ -4,7 +4,7 @@
  *
  * @package    WordPress
  * @author     David Perez <david@closemarketing.es>
- * @copyright  2020 Closemarketing
+ * @copyright  2022 Closemarketing
  * @version    1.0
  */
 
@@ -105,7 +105,7 @@ class Helpers_Wilapp {
 
 		if ( 'ok' === $result_schedule['status'] ) {
 			return array(
-				'day'      => ! empty( $service['offer_days'] ) ? $service['offer_days'] : '1,1,1,1,1,1,0',
+				'day'      => ! empty( $service['day'] ) ? $service['day'] : '1,1,1,1,1,1,0',
 				'init'     => isset( $result_schedule['data'][0]['init'] ) ? $result_schedule['data'][0]['init'] : '09:00:00',
 				'end'      => isset( $result_schedule['data'][0]['end'] ) ? $result_schedule['data'][0]['end'] : '20:00:00',
 				'duration' => ! empty( $service['duration'] ) ? $service['duration'] : 30,
@@ -137,22 +137,27 @@ class Helpers_Wilapp {
 	 * Get available schedules from professional and service
 	 *
 	 * @param array $professional Professional data.
-	 * @param array $query        Service data.
 	 * @return array
 	 */
-	public function get_workers( $professional, $query ) {
+	public function get_workers( $professional ) {
 
 		$result_workers = $this->api(
 			array(
 				'auth_key' => $professional['auth_key'],
 			),
-			'professional/workers',
-			'POST',
-			$query
+			'worker',
+			'GET'
 		);
 
-		if ( 'ok' === $result_workers['status'] ) {
-			return $result_workers['data'];
+		if ( 'ok' === $result_workers['status'] && ! empty( $result_workers['data'] ) ) {
+			$workers           = $result_workers['data'];
+			$available_workers = array();
+			foreach ( $workers as $worker ) {
+				if ( $worker['professional_id'] === $professional['id'] && 1 === $worker['status'] ) {
+					$available_workers[] = $worker;
+				}
+			}
+			return $available_workers;
 		}
 
 		return false;

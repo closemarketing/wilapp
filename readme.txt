@@ -3,9 +3,9 @@ Contributors: closetechnology, davidperez, sacrajaimez
 Tags: appointments, booking, calendar, service, booking system
 Requires at least: 4.0
 Requires PHP: 5.6
-Tested up to: 6.1
-Stable tag: 1.0.0
-Version: 1.0.0
+Tested up to: 6.1.1
+Stable tag: 1.1.0
+Version: 1.1.0
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,10 @@ WordPress installation and then activate the Plugin from Plugins page.
 [Official Repository GitHub](https://github.com/closemarketing/wilapp/)
 
 == Changelog ==
+
+= 1.1.0 =
+*	Fixed: schedules and workers.
+*  Fixed: Load images from workers.
 
 = 1.0.0 =
 *	First version

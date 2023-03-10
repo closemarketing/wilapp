@@ -1,0 +1,21 @@
+{
+  "apiVersion": 2,
+  "name": "close/subservicios",
+  "title": "Subservicios",
+  "category": "widgets",
+  "icon": "table-row-before",
+  "description": "Show subservicios.",
+  "keywords": ["posts", "subservicios", "close"],
+  "version": "0.0.1",
+  "textdomain": "close",
+  "usesContext" : [ "postId" ],
+  "attributes": {
+    "category": {
+      "type": "interger"
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/index.css",
+  "style": "file:./build/style-index.css"
+}
+

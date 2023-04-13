@@ -15,7 +15,7 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
-		"start:register": "wp-scripts start  ./register/src/index.js --output-path=./register/build",
+		"start:register": "wp-scripts start  ./wizard/src/index.js --output-path=./wizard/build",
 		"test:e2e": "wp-scripts test-e2e",
 		"test:unit": "wp-scripts test-unit-js"
 	},

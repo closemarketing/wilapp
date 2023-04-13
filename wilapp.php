@@ -41,9 +41,5 @@ function wilapp_plugin_init() {
 	load_plugin_textdomain( 'wilapp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 
-/**
- * # Includes
- * ---------------------------------------------------------------------------------------------------- */
 require_once WILAPP_PLUGIN_PATH . 'includes/class-helpers-wilapp.php';
 require_once WILAPP_PLUGIN_PATH . 'includes/class-wilapp-admin-settings.php';
-require_once WILAPP_PLUGIN_PATH . 'includes/class-wilapp-wizard.php';

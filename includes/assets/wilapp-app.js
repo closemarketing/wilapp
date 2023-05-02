@@ -83,6 +83,10 @@ document.getElementById('wilapp-submit').addEventListener( 'click', ( e ) => {
 	// Loader
 	loader = document.querySelector('.wilapp-wizard .wilapp-loader');
 	loader.style.display = 'block';
+	buttonBack = document.getElementById('wilapp-step-back');
+	buttonBack.disabled = true;
+	buttonSubmit = document.getElementById('wilapp-submit');
+	buttonSubmit.disabled = true;
 
 	fetch( AjaxVarSubmit.url, {
 		method: 'POST',
@@ -98,6 +102,8 @@ document.getElementById('wilapp-submit').addEventListener( 'click', ( e ) => {
 		toggleFieldSet( e.target );
 		document.getElementById('wilapp-result-appointment').innerHTML = result.data;
 		loader.style.display = 'none';
+		buttonBack.disabled = false;
+		buttonSubmit.disabled = false;
 	})
 	.catch(err => console.log(err));
 });

@@ -43,3 +43,4 @@ function wilapp_plugin_init() {
 
 require_once WILAPP_PLUGIN_PATH . 'includes/class-helpers-wilapp.php';
 require_once WILAPP_PLUGIN_PATH . 'includes/class-wilapp-admin-settings.php';
+require_once WILAPP_PLUGIN_PATH . 'includes/class-wilapp-wizard.php';

@@ -42,8 +42,11 @@ WordPress installation and then activate the Plugin from Plugins page.
 
 == Changelog ==
 
+= 1.2.0 =
+*	 Created loader while running the wizard.
+
 = 1.1.0 =
-*	Fixed: schedules and workers.
+*	 Fixed: schedules and workers.
 *  Fixed: Load images from workers.
 
 = 1.0.0 =

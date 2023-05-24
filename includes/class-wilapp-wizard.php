@@ -18,6 +18,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0
  */
 class WilApp_Wizard {
+	/**
+	 * Options
+	 *
+	 * @var array
+	 */
+	private $wilapp_options;
 
 	/**
 	 * Construct of Class
@@ -94,7 +100,6 @@ class WilApp_Wizard {
 
 		$login_result = $helpers_wilapp->login();
 		if ( 'error' === $login_result['status'] ) {
-			echo 'error';
 			return;
 		}
 
@@ -172,6 +177,7 @@ class WilApp_Wizard {
 		$html .= '<fieldset class="wizard-fieldset" data-page="6" data-worker="">';
 		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
 		$html .= '<h3>' . __( 'New Appointmet', 'wilapp' ) . '</h3>';
+		$html .= '<div class="wilapp-loader"></div>';
 
 		// First and Last name.
 		$html .= '<div class="form-group focus-input">';
@@ -207,7 +213,7 @@ class WilApp_Wizard {
 
 		// GDPR.
 		$html .= '<div class="form-group focus-input form-conditions">';
-		$html .= '<label for="gdpr"><input type="checkbox" class="form-check wizard-required" id="wilapp-gdpr"';
+		$html .= '<label for="wilapp-gdpr"><input type="checkbox" class="form-check wizard-required" id="wilapp-gdpr"';
 		$html .= '>';
 		$html .= sprintf(
 			// translators: %s link terms, %s link privacy.
@@ -232,6 +238,7 @@ class WilApp_Wizard {
 		 * ## STEP 7 - Finish
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="7">';
+		$html .= '<div class="wilapp-loader"></div>';
 		$html .= '<div id="wilapp-result-appointment"></div>';
 		$html .= '</fieldset>';
 

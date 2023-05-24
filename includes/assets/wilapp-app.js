@@ -3,12 +3,13 @@ clickEvents = document.getElementsByClassName('wilapp-item');
 
 var loadFunction = function( e ) {
 	// AJAX request.
-	let cat_id     = this.getAttribute('data-cat-id');
-	let service_id = this.getAttribute('data-service-id');
-	let day        = this.getAttribute('data-appointment-weekday');
-	let hour       = this.getAttribute('data-appointment-hour');
-	let worker     = this.getAttribute('data-worker-id');
-	let page       = parseInt( this.closest('.wizard-fieldset').getAttribute('data-page') ) + 1;
+	let cat_id      = this.getAttribute('data-cat-id');
+	let service_id  = this.getAttribute('data-service-id');
+	let day         = this.getAttribute('data-appointment-weekday');
+	let hour        = this.getAttribute('data-appointment-hour');
+	let worker      = this.getAttribute('data-worker-id');
+	let wizard_step = this.closest('.wizard-fieldset');
+	let page        = parseInt( this.closest('.wizard-fieldset').getAttribute('data-page') ) + 1;
 
 	fetch( AjaxVarStep.url, {
 		method: 'POST',
@@ -79,6 +80,14 @@ document.getElementById('wilapp-submit').addEventListener( 'click', ( e ) => {
 	let notes  = document.getElementById('wilapp-notes').value;
 	let worker = e.target.closest('.wizard-fieldset').getAttribute('data-worker');
 
+	// Loader
+	loader = document.querySelector('.wilapp-wizard .wilapp-loader');
+	loader.style.display = 'block';
+	buttonBack = document.getElementById('wilapp-step-back');
+	buttonBack.disabled = true;
+	buttonSubmit = document.getElementById('wilapp-submit');
+	buttonSubmit.disabled = true;
+
 	fetch( AjaxVarSubmit.url, {
 		method: 'POST',
 		credentials: 'same-origin',
@@ -92,6 +101,9 @@ document.getElementById('wilapp-submit').addEventListener( 'click', ( e ) => {
 	.then( function(result) {
 		toggleFieldSet( e.target );
 		document.getElementById('wilapp-result-appointment').innerHTML = result.data;
+		loader.style.display = 'none';
+		buttonBack.disabled = false;
+		buttonSubmit.disabled = false;
 	})
 	.catch(err => console.log(err));
 });

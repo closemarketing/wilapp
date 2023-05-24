@@ -3,7 +3,7 @@
  * Plugin Name: Wilapp
  * Plugin URI:  https://wilapp.com
  * Description: Make appointments for your shop with Wilapp.
- * Version:     1.1.0
+ * Version:     1.2.0
  * Author:      wilapp
  * Author URI:  https://close.technology
  * Text Domain: wilapp
@@ -25,7 +25,7 @@
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-define( 'WILAPP_VERSION', '1.1.0' );
+define( 'WILAPP_VERSION', '1.2.0' );
 define( 'WILAPP_PLUGIN', __FILE__ );
 define( 'WILAPP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WILAPP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );

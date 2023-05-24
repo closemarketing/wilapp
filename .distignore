@@ -1,7 +1,10 @@
 .distignore
 .editorconfig
+.gitignore
 .git
 .gitignore
 .travis.yml
 circle.yml
 .DS_Store
+.wordpress-org/
+.github/

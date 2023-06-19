@@ -152,22 +152,22 @@ class WilApp_Wizard {
 		$html .= '</fieldset>';
 
 		/**
-		 * ## STEP 4 - Appointment Hour
+		 * ## STEP 4 - Worker
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="4">';
 		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
-		$html .= '<h3>' . __( 'Select a hour', 'wilapp' ) . '</h3>';
-		$html .= '<div class="row"><ul class="options appointment-hour"></ul></div>';
+		$html .= '<h3>' . __( 'Select worker', 'wilapp' ) . '</h3>';
+		$html .= '<div class="row"><ul class="options appointment-worker"></ul></div>';
 		$html .= '<div id="response-error-page-4" class="response-error"></div>';
 		$html .= '</fieldset>';
 
 		/**
-		 * ## STEP 5 - Worker
+		 * ## STEP 5 - Appointment Hour
 		 * --------------------------- */
 		$html .= '<fieldset class="wizard-fieldset" data-page="5">';
 		$html .= '<button id="wilapp-step-back" class="icon-left-open">' . esc_html__( 'Back', 'wilapp' ) . '</button>';
-		$html .= '<h3>' . __( 'Select worker', 'wilapp' ) . '</h3>';
-		$html .= '<div class="row"><ul class="options appointment-worker"></ul></div>';
+		$html .= '<h3>' . __( 'Select a hour', 'wilapp' ) . '</h3>';
+		$html .= '<div class="row"><ul class="options appointment-hour"></ul></div>';
 		$html .= '<div id="response-error-page-5" class="response-error"></div>';
 		$html .= '</fieldset>';
 
@@ -326,23 +326,6 @@ class WilApp_Wizard {
 				}
 				wp_send_json_success( $options );
 			} elseif ( 4 === $page ) {
-				// Schedules Hour.
-				$options           = array();
-				$service           = $helpers_wilapp->filter_service( $services, $service_id );
-				$schedules_service = $helpers_wilapp->get_schedules( $professional, $service );
-
-				$start_time = strtotime( $day . ' ' . $schedules_service['init'] );
-				$end_time   = strtotime( $day . ' ' . $schedules_service['end'] );
-				$options    = array();
-				for ( $i = $start_time; $i <= $end_time; $i = $i + $schedules_service['duration'] * 60 ) {
-					$options[] = array(
-						'id'   => gmdate( 'H:i', $i ),
-						'name' => gmdate( 'H:i', $i ),
-						'type' => 'appointment-hour',
-					);
-				}
-				wp_send_json_success( $options );
-			} elseif ( 5 === $page ) {
 				$workers_service = $helpers_wilapp->get_workers( $professional );
 				// Workers.
 				$options = array();
@@ -353,6 +336,22 @@ class WilApp_Wizard {
 						'name'  => $worker['name'],
 						'type'  => 'worker-id',
 					);
+				}
+				wp_send_json_success( $options );
+			} elseif ( 5 === $page ) {
+				// Schedules Hour.
+				$options           = array();
+				$service           = $helpers_wilapp->filter_service( $services, $service_id );
+				$schedules_service = $helpers_wilapp->get_schedules( $professional, $service, $day, $worker );
+
+				if ( ! empty( $schedules_service['hours'] ) ) {
+					foreach ( $schedules_service['hours'] as $schedule_hour ) {
+						$options[] = array(
+							'id'   => $schedule_hour,
+							'name' => $schedule_hour,
+							'type' => 'appointment-hour',
+						);
+					}
 				}
 				wp_send_json_success( $options );
 			}

@@ -33,7 +33,13 @@ class Helpers_Wilapp {
 			'timeout' => 30,
 			'body'    => array(),
 		);
-		if ( ! empty( $credentials['auth_key'] ) ) {
+		if ( empty( $credentials['auth_key'] ) ) {
+			$settings = get_option( 'wilapp_options' );
+			if ( ! empty( $settings['auth_key'] ) ) {
+				$credentials['auth_key'] = $settings['auth_key'];
+			}
+		}
+		if ( ! empty( $credentials['auth_key'] ) && 'user/login' !== $endpoint ) {
 			$args['headers'] = array(
 				'Authorization' => 'Bearer ' . $credentials['auth_key'],
 			);
@@ -58,6 +64,11 @@ class Helpers_Wilapp {
 				'data'   => isset( $body['message'] ) ? $body['message'] : '',
 			);
 		} else {
+			if ( ! empty( $body['auth_key'] ) ) {
+				$settings             = get_option( 'wilapp_options' );
+				$settings['auth_key'] = $body['auth_key'];
+				update_option( 'wilapp_options', $settings );
+			}
 			return array(
 				'status' => 'ok',
 				'data'   => isset( $body ) ? $body : '',
@@ -96,20 +107,46 @@ class Helpers_Wilapp {
 	 * @param array $service      Sevice data.
 	 * @return array
 	 */
-	public function get_schedules( $professional, $service ) {
-		$result_schedule = $this->api(
-			array(),
-			'schedule/?filter[professional_id]=' . $professional['id'],
-			'GET'
-		);
-
-		if ( 'ok' === $result_schedule['status'] ) {
-			return array(
-				'day'      => ! empty( $service['day'] ) ? $service['day'] : '1,1,1,1,1,1,0',
-				'init'     => isset( $result_schedule['data'][0]['init'] ) ? $result_schedule['data'][0]['init'] : '09:00:00',
-				'end'      => isset( $result_schedule['data'][0]['end'] ) ? $result_schedule['data'][0]['end'] : '20:00:00',
-				'duration' => ! empty( $service['duration'] ) ? $service['duration'] : 30,
+	public function get_schedules( $professional, $service, $date = '', $worker = '' ) {
+		if ( empty( $date ) ) {
+			$result_schedule = $this->api(
+				array(),
+				'schedule/?filter[professional_id]=' . $professional['id'],
+				'GET'
 			);
+
+			if ( 'ok' === $result_schedule['status'] ) {
+				return array(
+					'day'      => ! empty( $service['day'] ) ? $service['day'] : '1,1,1,1,1,1,0',
+					'init'     => isset( $result_schedule['data'][0]['init'] ) ? $result_schedule['data'][0]['init'] : '09:00:00',
+					'end'      => isset( $result_schedule['data'][0]['end'] ) ? $result_schedule['data'][0]['end'] : '20:00:00',
+					'duration' => ! empty( $service['duration'] ) ? $service['duration'] : 30,
+				);
+			}
+		} else {
+			$result_schedule = $this->api(
+				array(),
+				'professional/schedule',
+				'POST',
+				array(
+					'date'            => $date,
+					'professional_id' => $professional['id'],
+					'worker_id'       => $worker,
+				)
+			);
+			$schedule_hours  = array();
+			if ( ! empty( $result_schedule['data'] ) ) {
+				foreach ( $result_schedule['data'] as $key => $value ) {
+					if ( 1 === $value ) {
+						$schedule_hours[] = $key;
+					}
+				}
+			}
+
+			return array(
+				'hours' => $schedule_hours,
+			);
+
 		}
 
 		return false;
@@ -140,7 +177,6 @@ class Helpers_Wilapp {
 	 * @return array
 	 */
 	public function get_workers( $professional ) {
-
 		$result_workers = $this->api(
 			array(
 				'auth_key' => $professional['auth_key'],

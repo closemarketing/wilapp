@@ -44,6 +44,7 @@ WordPress installation and then activate the Plugin from Plugins page.
 
 = 1.2.0 =
 *	 Created loader while running the wizard.
+*  Makes appointment availability for workers.
 
 = 1.1.0 =
 *	 Fixed: schedules and workers.

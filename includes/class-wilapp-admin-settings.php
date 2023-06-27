@@ -189,10 +189,6 @@ class Wilapp_Admin_Settings {
 	}
 
 	/**
-	 * # API Settings
-	 * ---------------------------------------------------------------------------------------------------- */
-
-	/**
 	 * Sanitize fiels before saves in DB
 	 *
 	 * @param array $input Input fields.

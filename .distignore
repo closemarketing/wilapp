@@ -8,3 +8,7 @@ circle.yml
 .DS_Store
 .wordpress-org/
 .github/
+test/
+package.json
+package-lock.json
+node_modules/

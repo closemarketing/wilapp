@@ -214,8 +214,6 @@ class Wilapp_Admin_Settings {
 			$sanitary_values['privacy'] = sanitize_text_field( $input['privacy'] );
 		}
 
-		$helpers_wilapp->login( $sanitary_values['username'], $sanitary_values['password'] );
-
 		return $sanitary_values;
 	}
 

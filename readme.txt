@@ -42,6 +42,9 @@ WordPress installation and then activate the Plugin from Plugins page.
 
 == Changelog ==
 
+= 1.3.1 =
+*  Remove admin doble check login.
+
 = 1.3.0 =
 *  Makes appointment availability for workers.
 
